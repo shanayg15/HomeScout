@@ -1,0 +1,27 @@
+[
+  {
+    "id": "12-Sparse-Rd,-Ruralton,-MT-59000",
+    "formattedAddress": "12 Sparse Rd, Ruralton, MT 59000",
+    "addressLine1": "12 Sparse Rd",
+    "city": "Ruralton",
+    "state": "MT",
+    "zipCode": "59000",
+    "county": "Bigsky",
+    "latitude": 47.12,
+    "longitude": -110.24,
+    "propertyType": "Single Family",
+    "bedrooms": 2,
+    "bathrooms": 1,
+    "squareFootage": 980,
+    "lotSize": null,
+    "yearBuilt": 1974,
+    "assessorID": null,
+    "zoning": null,
+    "lastSaleDate": null,
+    "lastSalePrice": null,
+    "owner": null,
+    "taxAssessments": null,
+    "propertyTaxes": null,
+    "history": null
+  }
+]

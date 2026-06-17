@@ -1,0 +1,14 @@
+{
+  "price": 271000,
+  "priceRangeLow": 254000,
+  "priceRangeHigh": 288000,
+  "subjectProperty": { "latitude": 29.476011, "longitude": -98.351454 },
+  "comparables": [
+    { "id": "v1", "formattedAddress": "7112 Comp Dr, San Antonio, TX 78244", "latitude": 29.474, "longitude": -98.349, "price": 265000, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1820, "distance": 0.42, "correlation": 0.985, "listingType": "Standard", "status": "Inactive" },
+    { "id": "v2", "formattedAddress": "204 Comp Ct, San Antonio, TX 78244", "latitude": 29.479, "longitude": -98.354, "price": 278000, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1905, "distance": 0.55, "correlation": 0.967, "listingType": "Standard", "status": "Inactive" },
+    { "id": "v3", "formattedAddress": "58 Comp Ln, San Antonio, TX 78244", "latitude": 29.472, "longitude": -98.347, "price": 259000, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1760, "distance": 0.71, "correlation": 0.951, "listingType": "Standard", "status": "Inactive" },
+    { "id": "v4", "formattedAddress": "990 Comp Way, San Antonio, TX 78244", "latitude": 29.481, "longitude": -98.356, "price": 282000, "bedrooms": 4, "bathrooms": 2, "squareFootage": 1990, "distance": 0.83, "correlation": 0.94, "listingType": "Standard", "status": "Inactive" },
+    { "id": "v5", "formattedAddress": "17 Comp Pl, San Antonio, TX 78244", "latitude": 29.47, "longitude": -98.344, "price": 268000, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1840, "distance": 0.9, "correlation": 0.93, "listingType": "Standard", "status": "Inactive" },
+    { "id": "v6", "formattedAddress": "433 Comp Blvd, San Antonio, TX 78244", "latitude": 29.483, "longitude": -98.359, "price": 274000, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1880, "distance": 1.1, "correlation": 0.92, "listingType": "Standard", "status": "Inactive" }
+  ]
+}

@@ -9,22 +9,29 @@ confidence) lives inline in each `evals/cases/*.ts` file under `groundTruth`.
 Several values are marked **illustrative** — replace them with verified records
 when the real-data path lands (M3/M5).
 
-## Recorded provider responses (added in M3)
+## RentCast response fixtures (M3)
 
-To test mapping logic without spending RentCast's 50-call/month free tier, M3
-captures a few real RentCast JSON responses here:
+To test mapping logic without spending RentCast's 50-call/month free tier:
 
 ```
 evals/fixtures/rentcast/
-  well-covered.json   # a property with full coverage
-  partial.json        # a property with some fields missing
-  not-found.json      # an empty / 404-style response
+  property-well-covered.json   # full property record (array)
+  property-partial.json        # record with several fields missing/null
+  property-not-found.json      # empty array [] (no match)
+  avm-value.json               # value AVM + 6 sale comps
+  avm-rent.json                # rent AVM + 4 rental comps
 ```
 
-These are loaded by unit tests for `mapRentCastProperty` / `mapRentCastAvm`,
-which assert correct `Sourced` mapping, null-handling, and confidence — with **no
-network**. Scrub any sensitive owner PII to initials before committing, and note
-in the repo README that these are sample responses.
+> **These are SYNTHETIC samples shaped to the live-verified RentCast schema**
+> (developers.rentcast.io, verified June 2026), not captures from a live key —
+> the build was done without a RentCast key. Field names/shapes (e.g.
+> `owner.names[]`, year-keyed `taxAssessments`, comp `correlation`, rent value in
+> `price`) match the real API. Replace them with real captures once a key is
+> available (scrub owner PII to initials before committing).
+
+They are loaded by `src/lib/providers/property/mapRentCast.test.ts`, which
+asserts correct `Sourced` mapping, null-handling (no fabrication), and the AVM
+confidence heuristic — with **no network**.
 
 ## Adding a new golden case
 

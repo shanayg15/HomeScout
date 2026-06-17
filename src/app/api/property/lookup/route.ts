@@ -10,6 +10,8 @@ import { lookupProperty } from "@/lib/services/lookupProperty";
  */
 export async function GET(request: NextRequest) {
   const address = request.nextUrl.searchParams.get("address")?.trim();
+  // Optional &refresh=true bypasses the cache (still respects quota).
+  const refresh = request.nextUrl.searchParams.get("refresh") === "true";
 
   if (!address) {
     return NextResponse.json(
@@ -19,7 +21,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const dossier = await lookupProperty(address);
+    // A not-found address is a valid 200 result (dossier with unavailable
+    // fields), not an error — only genuine failures become 500.
+    const dossier = await lookupProperty(address, { refresh });
     return NextResponse.json(dossier);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";

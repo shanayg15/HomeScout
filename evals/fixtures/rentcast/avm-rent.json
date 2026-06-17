@@ -1,0 +1,12 @@
+{
+  "rent": 1650,
+  "rentRangeLow": 1550,
+  "rentRangeHigh": 1750,
+  "subjectProperty": { "latitude": 29.476011, "longitude": -98.351454 },
+  "comparables": [
+    { "id": "r1", "formattedAddress": "7306 Kingsland Dr, San Antonio, TX 78244", "latitude": 29.473782, "longitude": -98.344684, "price": 1627, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1835, "distance": 0.4359, "correlation": 0.9873, "listingType": "Standard", "status": "Inactive" },
+    { "id": "r2", "formattedAddress": "120 Rent Comp St, San Antonio, TX 78244", "latitude": 29.478, "longitude": -98.352, "price": 1700, "bedrooms": 3, "bathrooms": 2, "squareFootage": 1880, "distance": 0.6, "correlation": 0.961, "listingType": "Standard", "status": "Inactive" },
+    { "id": "r3", "formattedAddress": "44 Rent Comp Ave, San Antonio, TX 78244", "latitude": 29.471, "longitude": -98.346, "price": 1575, "bedrooms": 2, "bathrooms": 2, "squareFootage": 1620, "distance": 0.78, "correlation": 0.944, "listingType": "Standard", "status": "Inactive" },
+    { "id": "r4", "formattedAddress": "901 Rent Comp Rd, San Antonio, TX 78244", "latitude": 29.482, "longitude": -98.357, "price": 1725, "bedrooms": 4, "bathrooms": 2, "squareFootage": 1960, "distance": 0.95, "correlation": 0.93, "listingType": "Standard", "status": "Inactive" }
+  ]
+}

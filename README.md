@@ -17,10 +17,13 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 2 of 8 — eval harness in place.** The app boots and renders a
-clearly-badged **MOCK** dossier; the eval suite (`npm run eval`) runs golden +
-adversarial cases through `lookupProperty` with MUST/SHOULD assertions. Real
-data (RentCast) lands in Milestone 3.
+**Milestone 3 of 8 — real property lookup.** With a RentCast key and
+`USE_MOCKS=false`, pasting a real US address returns a real dossier
+(identity/structure/ownership/tax/value/rent/comps) via RentCast + free Census
+geocoding, cached so repeat lookups cost 0 API calls. Thin/missing data degrades
+to "Not available" — never a fabricated value. Risk signals, zoning
+plain-English, and the deal narrative remain stubs (M5/M6). The default is still
+mocks (`USE_MOCKS=true`), so a fresh clone runs offline.
 
 ## Prerequisites
 
@@ -37,6 +40,45 @@ npm run dev
 
 Open http://localhost:3000 and search any address. With `USE_MOCKS=true` (the
 default) every dossier is mock data, badged accordingly.
+
+## Real data setup (RentCast)
+
+Real dossiers come from [RentCast](https://www.rentcast.io/api) (property
+records, ownership, tax, value/rent AVM + comps).
+
+1. Create a free RentCast account and copy your API key (free **Developer tier =
+   50 API calls/month**, no credit card).
+2. In `.env`, set:
+   ```bash
+   RENTCAST_API_KEY=your_key_here
+   USE_MOCKS=false
+   ```
+3. Restart `npm run dev` and search a real US residential address.
+
+**Quota matters.** A full dossier is up to 3 RentCast calls (`/properties`,
+`/avm/value`, `/avm/rent/long-term`) — ~16 dossiers/month on the free tier. Two
+protections:
+
+- **Caching.** Every lookup is cached by normalized address (JSON files under
+  `.cache/`, gitignored). A repeat lookup costs **0 API calls**. TTL is
+  `CACHE_TTL_DAYS` (default 7). Add `&refresh=true` to the API to bypass it.
+- **Mocks for dev.** Keep `USE_MOCKS=true` while building; only flip to `false`
+  for targeted real checks. The console logs a running RentCast call count.
+
+When RentCast has no coverage for an address (or your key is missing/over
+quota), the dossier still renders — every affected field shows **"Not
+available"** with a note and lower confidence. It never invents a number.
+
+## Data sources
+
+| Source | Role | Key? | Terms |
+|---|---|---|---|
+| [RentCast](https://www.rentcast.io/api) | Property record, ownership, tax, value/rent AVM, comps | Yes (free tier) | Licensed; **no attribution required**. |
+| [US Census Geocoder](https://geocoding.geo.census.gov/) | Address → lat/lng + county (primary) | No | Free, public domain. |
+| [Nominatim / OSM](https://nominatim.org/) | Geocoding fallback | No | ≤1 req/s, custom User-Agent, cache results (we do all three). |
+
+We use **official APIs and public/gov data only**. We never scrape Zillow,
+Redfin, or Realtor.com — not even as a fallback.
 
 ## Scripts
 

@@ -23,8 +23,38 @@ and no OpenSwarm/MCP code exists in this repo.**
 Swappable data-source adapters behind small interfaces (`providers/types.ts`):
 `GeocodeProvider`, `PropertyProvider`, `ValuationProvider`, `RiskProvider`. The
 mock provider (`providers/mock`) implements the same dossier shape so the
-service layer never depends on a concrete source. Real adapters (RentCast,
-Census, FEMA, …) land in later milestones and are selected via `env.USE_MOCKS`.
+service layer never depends on a concrete source.
+
+**Provider selection.** `providers/index.ts` exports `getProviders()`, which
+returns the REAL adapters (RentCast + Census/Nominatim geocoding). The mock path
+bypasses this entirely — when `USE_MOCKS=true`, `lookupProperty` returns the
+monolithic mock dossier directly (so the eval sentinels keep working), and
+`getProviders()` is only used when `USE_MOCKS=false`.
+
+**RentCast adapter** (`providers/property/rentcast.ts`): a typed `fetchJson`
+wrapper (`providers/http.ts`) with a timeout, one retry on network errors, and
+structured errors (`NotFoundError`/`RateLimitedError`/`ProviderError`); Zod
+validation of the raw response (degrading to "unavailable" on a mismatch rather
+than throwing the page); and pure mappers (`mapRentCast.ts`, unit-tested against
+fixtures) that wrap each field in a `Sourced<>`. A per-process call counter logs
+RentCast usage against the 50/month free tier.
+
+## Cache (`src/lib/cache`)
+
+```ts
+interface Cache {
+  get(key: string): Promise<CachedDossier | null>;
+  set(key: string, value: CachedDossier, ttlSeconds: number): Promise<void>;
+}
+```
+
+Keyed by the normalized address slug, so a repeat lookup costs **0 API calls**.
+The M3 impl (`FileCache`) is a dependency-light JSON-file cache (one file per key
+under `.cache/`) — chosen over a native SQLite module to keep a clean-clone
+`npm install` build-free on any Node version. TTLs: a found dossier lives
+`CACHE_TTL_DAYS` (default 7); a not-found result is cached for 1 day; a transient
+provider error is **never** cached (so adding a key / waiting out a rate limit
+re-fetches). M7 swaps `FileCache` for Postgres behind the same interface.
 
 ## The `Sourced<T>` provenance pattern
 
