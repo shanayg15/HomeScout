@@ -1,5 +1,6 @@
 import type { Confidence } from "@/lib/types/dossier";
 import { cn } from "@/lib/utils";
+import { InfoTooltip } from "./InfoTooltip";
 
 const STYLES: Record<Confidence, string> = {
   high: "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-200",
@@ -21,12 +22,17 @@ const LABEL: Record<Confidence, string> = {
  * Confidence chip with consistent color semantics. The text label is ALWAYS
  * present — confidence is never conveyed by color alone (accessibility).
  */
+const TOOLTIP =
+  "Confidence reflects how many close, comparable data points were available — higher means more/closer comps and a tighter range. It is not a guarantee.";
+
 export function ConfidenceChip({
   confidence,
   className,
+  withInfo = true,
 }: {
   confidence: Confidence;
   className?: string;
+  withInfo?: boolean;
 }) {
   return (
     <span
@@ -37,6 +43,7 @@ export function ConfidenceChip({
       )}
     >
       {LABEL[confidence]}
+      {withInfo ? <InfoTooltip text={TOOLTIP} label="What confidence means" /> : null}
     </span>
   );
 }
