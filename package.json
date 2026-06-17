@@ -10,7 +10,9 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "eval": "tsx evals/run.ts",
+    "eval:json": "tsx evals/run.ts --json"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -34,6 +36,7 @@
     "eslint-config-next": "16.2.9",
     "shadcn": "^4.11.0",
     "tailwindcss": "^4",
+    "tsx": "^4.22.4",
     "typescript": "^5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.9"

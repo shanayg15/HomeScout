@@ -167,8 +167,20 @@ function mockComps(baseLat: number, baseLng: number): {
   return { sale, rental };
 }
 
-/** Build a complete, clearly-mock dossier for the given raw address. */
+/**
+ * Mock router (Option A from M2). Sentinel inputs produce edge-case dossiers so
+ * the eval safety MUSTs (thin coverage, no fabrication) are genuinely exercised
+ * against mocks — and the same cases keep working when real providers replace
+ * mocks (a real sparse area produces the same shape).
+ */
 export function getMockDossier(rawAddress: string): Dossier {
+  if (rawAddress.includes("__thin__")) return thinMockDossier(rawAddress);
+  if (rawAddress.includes("__null__")) return nullMockDossier(rawAddress);
+  return fullMockDossier(rawAddress);
+}
+
+/** Build a complete, clearly-mock dossier for the given raw address. */
+function fullMockDossier(rawAddress: string): Dossier {
   const identity = parseIdentity(rawAddress);
   const { sale, rental } = mockComps(
     identity.latitude ?? 39.7817,
@@ -263,6 +275,111 @@ export function getMockDossier(rawAddress: string): Dossier {
     },
     warnings: [
       "This is mock data for development — not real property information.",
+    ],
+  };
+}
+
+/**
+ * Thin-coverage sentinel: a rural/uncovered property. Identity is resolved, but
+ * every RentCast-style field is unavailable, the deal confidence is low, and a
+ * coverage warning is present. This is the #1 failure-mode guard.
+ */
+function thinMockDossier(rawAddress: string): Dossier {
+  const identity = parseIdentity(rawAddress);
+  const noStructure = "No structure data for this area.";
+  const noComps = "Not enough comparable data to estimate this.";
+  return {
+    id: addressToSlug(identity.formattedAddress) || "mock-thin",
+    generatedAt: new Date().toISOString(),
+    isMock: true,
+    identity,
+    structure: {
+      beds: mockUnavailable(noStructure),
+      baths: mockUnavailable(noStructure),
+      squareFootage: mockUnavailable(noStructure),
+      lotSizeSqft: mockUnavailable(noStructure),
+      yearBuilt: mockUnavailable(noStructure),
+    },
+    ownership: {
+      ownerName: mockUnavailable("No ownership record found for this address."),
+      lastSalePrice: mockUnavailable("No recorded sale history."),
+      lastSaleDate: mockUnavailable("No recorded sale history."),
+      priorSales: mockUnavailable("No recorded sale history."),
+    },
+    tax: {
+      assessedValue: mockUnavailable("No tax assessment on file."),
+      taxAmountAnnual: mockUnavailable("No tax assessment on file."),
+      taxYear: mockUnavailable("No tax assessment on file."),
+    },
+    valuation: {
+      valueEstimate: mockUnavailable(noComps),
+      rentEstimate: mockUnavailable(noComps),
+      saleComps: mockUnavailable("No comparable sales found nearby."),
+      rentalComps: mockUnavailable("No comparable rentals found nearby."),
+    },
+    zoning: {
+      code: mockUnavailable("No zoning data for this jurisdiction."),
+      plainEnglish: mockUnavailable(
+        "Plain-English zoning explanation added in a later step (M6).",
+      ),
+      recentPermits: mockUnavailable("No permit data available for this area."),
+    },
+    flood: {
+      zone: mockUnavailable("No flood-map coverage for this location."),
+      inSFHA: mockUnavailable("No flood-map coverage for this location."),
+      insuranceLikelyRequired: mockUnavailable(
+        "No flood-map coverage for this location.",
+      ),
+    },
+    neighborhood: {
+      walkScore: mockUnavailable("No walkability data for this area."),
+      transitScore: mockUnavailable("No transit data for this area."),
+      bikeScore: mockUnavailable("No bike data for this area."),
+      medianHouseholdIncome: mockUnavailable("No demographic data for this area."),
+      ownerOccupiedRate: mockUnavailable("No demographic data for this area."),
+      crimeContext: mockUnavailable("No area-level crime data available."),
+    },
+    deal: {
+      summary: mockUnavailable(
+        "Not enough public data to form a read for this property.",
+      ),
+      grossYieldPct: mockUnavailable(
+        "Cannot compute yield without value and rent estimates.",
+      ),
+      dataPointsUsed: [],
+      confidence: "low",
+    },
+    warnings: [
+      "This is mock data for development — not real property information.",
+      "Limited data coverage for this area — confidence is reduced.",
+    ],
+  };
+}
+
+/**
+ * Null sentinel: a full dossier with a handful of specific fields forced
+ * unavailable, to exercise the no-hallucination assertions on exact fields.
+ */
+function nullMockDossier(rawAddress: string): Dossier {
+  const base = fullMockDossier(rawAddress);
+  return {
+    ...base,
+    ownership: {
+      ...base.ownership,
+      ownerName: mockUnavailable("Owner of record not found in public data."),
+      lastSalePrice: mockUnavailable("No recorded sale price for this parcel."),
+    },
+    tax: {
+      ...base.tax,
+      assessedValue: mockUnavailable("No assessed value on file."),
+    },
+    neighborhood: {
+      ...base.neighborhood,
+      walkScore: mockUnavailable("Walk Score not available for this location."),
+    },
+    warnings: [
+      ...base.warnings,
+      "Some fields are unavailable for this address and are shown as “Not available.”",
     ],
   };
 }
