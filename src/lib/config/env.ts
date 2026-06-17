@@ -13,4 +13,10 @@ export const env = {
   CENSUS_API_KEY: process.env.CENSUS_API_KEY ?? "",
   ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY ?? "",
   FBI_CRIME_API_KEY: process.env.FBI_CRIME_API_KEY ?? "",
+  /**
+   * Lookup-cache TTL in days (default 7). The dossier bundles the property
+   * record and the AVM/comps; the shorter AVM-freshness window wins. M7 can
+   * split per-section TTLs once persistence moves to Postgres.
+   */
+  CACHE_TTL_DAYS: Number(process.env.CACHE_TTL_DAYS ?? "7"),
 };
