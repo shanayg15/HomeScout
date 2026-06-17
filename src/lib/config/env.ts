@@ -19,4 +19,9 @@ export const env = {
    * split per-section TTLs once persistence moves to Postgres.
    */
   CACHE_TTL_DAYS: Number(process.env.CACHE_TTL_DAYS ?? "7"),
+  /**
+   * Map tile key (MapTiler). Optional — the map falls back to free OSM raster
+   * tiles when unset, so a fresh clone renders a map without any signup.
+   */
+  MAPTILER_API_KEY: process.env.MAPTILER_API_KEY ?? "",
 };
