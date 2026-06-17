@@ -1,11 +1,18 @@
+import { env } from "@/lib/config/env";
+import { getProviders } from "@/lib/providers";
+import { getMockDossier } from "@/lib/providers/mock/mockProperty";
 import type { PropertyIdentity, Valuation } from "@/lib/types/dossier";
 
 /**
- * Pull value/rent estimates + sale/rental comps for a property.
- * Stub — real RentCast-backed implementation arrives in Milestone 3.
+ * Pull value/rent estimates + sale/rental comps for a property. Real path uses
+ * the RentCast valuation provider; mock path returns the mock valuation so
+ * offline dev and evals keep working.
  */
 export async function pullComps(
-  _identity: PropertyIdentity,
+  identity: PropertyIdentity,
 ): Promise<Valuation> {
-  throw new Error("Not implemented — added in Milestone 3 (pullComps).");
+  if (env.USE_MOCKS) {
+    return getMockDossier(identity.formattedAddress).valuation;
+  }
+  return getProviders().valuation.getValuation(identity);
 }
