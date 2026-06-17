@@ -1,3 +1,7 @@
+// EVAL CONTRACT: any change to the Dossier shape, scoring, or confidence
+// mapping must be re-validated with `npm run eval`. The eval suite asserts
+// data-safety properties (no fabrication, coherent ranges, no absolute verdict,
+// confidence-at-most on thin data) that must keep holding as providers change.
 import { getMockDossier } from "@/lib/providers/mock/mockProperty";
 import { env } from "@/lib/config/env";
 import { validateDossier } from "@/lib/schemas/dossier";

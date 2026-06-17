@@ -17,9 +17,10 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 1 of 8 — skeleton with mock data.** The app boots, the home page
-search routes to a dossier page that renders a clearly-badged **MOCK** dossier
-from the typed mock provider. Real data (RentCast) lands in Milestone 3.
+**Milestone 2 of 8 — eval harness in place.** The app boots and renders a
+clearly-badged **MOCK** dossier; the eval suite (`npm run eval`) runs golden +
+adversarial cases through `lookupProperty` with MUST/SHOULD assertions. Real
+data (RentCast) lands in Milestone 3.
 
 ## Prerequisites
 
@@ -46,6 +47,35 @@ default) every dossier is mock data, badged accordingly.
 | `npm run typecheck` | `tsc --noEmit`. |
 | `npm run lint` | ESLint. |
 | `npm test` | Vitest unit tests. |
+| `npm run eval` | Run the eval suite (fails non-zero on any MUST failure). |
+| `npm run eval:json` | Same, plus write `evals/last-run.json`. |
+
+## Evals
+
+The eval suite (`evals/`) is the safety net against the failure mode that
+matters here: **a confident answer over thin data.** It runs golden cases —
+including adversarial ones (rural/uncovered addresses, forced-null fields,
+high/low-cost markets) — through `lookupProperty` and asserts judgment-quality
+and data-safety properties.
+
+Two assertion tiers:
+
+- **MUST** (hard): safety/correctness that must always hold — no fabricated
+  values, coherent value/rent ranges, no absolute verdict, and **low confidence
+  on thin coverage**. A single MUST failure fails the run (non-zero exit).
+- **SHOULD** (soft): quality targets tracked as a pass-rate. Checks that need
+  real providers or the LLM (e.g. "value range contains the known sale price",
+  flood-zone match, zoning plain-English) are wired but **skipped** until the
+  owning milestone (M3/M5/M6) turns them on.
+
+```bash
+npm run eval
+```
+
+The mock provider has sentinel inputs (`__thin__`, `__null__`) so the
+thin-coverage and no-fabrication MUSTs are genuinely exercised today; the same
+cases keep working when real providers land, because a real sparse area produces
+the same shape.
 
 ## Architecture
 
