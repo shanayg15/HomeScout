@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { Home } from "lucide-react";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +14,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const playfair = Playfair_Display({
+  variable: "--font-serif-display",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -30,37 +36,37 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <TooltipProvider>
-          <header className="border-b">
-            <div className="mx-auto flex w-full max-w-5xl items-center gap-2 px-4 py-3">
+          <header className="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur">
+            <div className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-3 sm:px-6">
               <Link
                 href="/"
-                className="flex items-center gap-2 font-semibold tracking-tight"
+                className="flex items-center gap-2 text-lg font-semibold tracking-tight"
               >
                 <Home className="size-5 text-primary" aria-hidden />
                 Homescout
               </Link>
-              <Link
-                href="/saved"
-                className="ml-auto text-sm text-muted-foreground hover:text-foreground"
-              >
-                Saved
-              </Link>
-              <span className="hidden text-xs text-muted-foreground sm:inline">
-                Informational only — not advice
-              </span>
+              <nav className="ml-auto flex items-center gap-5 text-sm">
+                <Link
+                  href="/saved"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Saved
+                </Link>
+                <span className="hidden text-xs text-muted-foreground sm:inline">
+                  Informational only — not advice
+                </span>
+              </nav>
             </div>
           </header>
 
-          <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
-            {children}
-          </main>
+          <main className="flex-1">{children}</main>
 
           <footer className="border-t">
-            <div className="mx-auto w-full max-w-5xl px-4 py-4">
+            <div className="mx-auto w-full max-w-6xl px-4 py-5 sm:px-6">
               <Disclaimer variant="footer" />
             </div>
           </footer>
