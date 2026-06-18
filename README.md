@@ -17,16 +17,16 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 4 of 8 — polished dossier UI + map.** A responsive, scannable
-dossier with an interactive **MapLibre map** of the subject property and its
-sale/rental comps (click a comp to highlight its marker, and vice-versa),
-per-section provenance, confidence chips, a consolidated sources/freshness
-summary, and graceful loading/partial/error states. Map tiles use MapTiler if
-`MAPTILER_API_KEY` is set, otherwise free OpenStreetMap raster tiles.
+**Milestone 5 of 8 — risk & quality signals.** The dossier now includes a
+**risk & neighborhood** layer from free government / open data: **FEMA flood
+zone** (keyless, live-verified), **Walk Score** walkability, **Census ACS**
+demographics, and **area crime context**. All fetched in parallel, each tagged
+with its source/confidence, and every signal degrades gracefully to "Not
+available" — never fabricated.
 
-Earlier milestones: real RentCast + Census lookup with caching (M3, behind
-`USE_MOCKS=false`), eval harness (M2). Risk signals, zoning plain-English, and
-the deal narrative remain stubs (M5/M6). The default is still mocks
+Earlier milestones: polished dossier UI + interactive MapLibre map (M4), real
+RentCast + Census-geocoded lookup with caching (M3), eval harness (M2). Zoning
+plain-English and the deal narrative are next (M6). The default is still mocks
 (`USE_MOCKS=true`), so a fresh clone runs offline.
 
 ## Prerequisites
@@ -78,11 +78,17 @@ available"** with a note and lower confidence. It never invents a number.
 | Source | Role | Key? | Terms |
 |---|---|---|---|
 | [RentCast](https://www.rentcast.io/api) | Property record, ownership, tax, value/rent AVM, comps | Yes (free tier) | Licensed; **no attribution required**. |
-| [US Census Geocoder](https://geocoding.geo.census.gov/) | Address → lat/lng + county (primary) | No | Free, public domain. |
+| [US Census Geocoder](https://geocoding.geo.census.gov/) | Address → lat/lng + county + tract (primary) | No | Free, public domain. |
 | [Nominatim / OSM](https://nominatim.org/) | Geocoding fallback | No | ≤1 req/s, custom User-Agent, cache results (we do all three). |
+| [FEMA NFHL](https://www.fema.gov/flood-maps/national-flood-hazard-layer) | Flood zone + SFHA determination | **No** | Free, public. Informational — not a certified flood determination. |
+| [Walk Score](https://www.walkscore.com/professional/api.php) | Walk / Transit / Bike scores | Yes (free) | **Walk Score® attribution + link required** (shown in the UI). |
+| [US Census ACS](https://www.census.gov/data/developers/data-sets/acs-5year.html) | Median income, owner-occupied rate | Yes (free) | Free, public domain. Key now required for ACS data. |
+| FBI Crime Data API | Area crime context | — | **Deliberately omitted** — only state-level data exists, too coarse to present responsibly per property; rendered "Not available". |
 
 We use **official APIs and public/gov data only**. We never scrape Zillow,
-Redfin, or Realtor.com — not even as a fallback.
+Redfin, or Realtor.com — not even as a fallback. Crime is **area-level context,
+never a safety verdict**; flood is **informational, not a certified
+determination**; every signal degrades to "Not available" rather than guessing.
 
 ## Scripts
 

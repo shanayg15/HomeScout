@@ -39,6 +39,14 @@ than throwing the page); and pure mappers (`mapRentCast.ts`, unit-tested against
 fixtures) that wrap each field in a `Sourced<>`. A per-process call counter logs
 RentCast usage against the 50/month free tier.
 
+**Risk providers** (`providers/risk/*`): FEMA NFHL flood (keyless), Walk Score,
+Census ACS, and crime. `assessRisk` fetches all four with **`Promise.allSettled`
+in parallel**, so one slow/failed source never blocks the others, and assembles
+the `FloodRisk` + `Neighborhood` sections. Each provider catches internally and
+degrades to "unavailable" — a missing key or no coverage is never an error and
+never a fabricated value. Crime is deliberately omitted (state-level data is too
+coarse to present per-property); it renders "Not available" with a reason.
+
 ## Cache (`src/lib/cache`)
 
 ```ts

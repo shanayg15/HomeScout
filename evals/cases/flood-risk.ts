@@ -2,24 +2,46 @@ import type { EvalCase } from "../types";
 import { noFabrication, floodMatches, assert, skip } from "../assertions";
 
 /**
- * Flood-zone correctness. The real FEMA lookup arrives in M5, so the
- * zone/SFHA-match SHOULDs are skipped until then. The MUST that runs now: the
- * flood section never fabricates (unavailable ⇒ null).
+ * Flood-zone correctness (M5 = live). The MUST that always runs: the flood
+ * section never fabricates (unavailable ⇒ null). The zone/SFHA SHOULDs run live
+ * when EVAL_LIVE=true (FEMA NFHL is keyless), and are otherwise covered
+ * deterministically by the `mapFemaFlood` unit tests (`npm test`).
  */
-function floodAssertions(dossier: Parameters<EvalCase["assertions"]>[0], c: EvalCase) {
+const LIVE = process.env.EVAL_LIVE === "true";
+
+function floodAssertions(
+  dossier: Parameters<EvalCase["assertions"]>[0],
+  c: EvalCase,
+) {
   const results = [
     noFabrication("flood.zone noFabrication", dossier.flood.zone),
     noFabrication("flood.inSFHA noFabrication", dossier.flood.inSFHA),
   ];
-  if (c.groundTruth?.knownFloodZone) {
-    results.push(skip("floodMatches", "should", "pending FEMA lookup (M5)"));
+
+  const known = c.groundTruth;
+  if (known?.knownFloodZone) {
+    results.push(
+      LIVE
+        ? floodMatches(dossier, known.knownFloodZone)
+        : skip(
+            "floodMatches",
+            "should",
+            "live: EVAL_LIVE=true USE_MOCKS=false (FEMA is keyless); also covered by mapFemaFlood unit tests",
+          ),
+    );
   }
-  if (c.groundTruth?.knownInSFHA != null) {
-    results.push(skip("inSFHAMatches", "should", "pending FEMA lookup (M5)"));
+  if (known?.knownInSFHA != null) {
+    results.push(
+      LIVE
+        ? assert(
+            "inSFHAMatches",
+            "should",
+            dossier.flood.inSFHA.value === known.knownInSFHA,
+            `inSFHA ${dossier.flood.inSFHA.value} != ${known.knownInSFHA}`,
+          )
+        : skip("inSFHAMatches", "should", "live: EVAL_LIVE=true USE_MOCKS=false; also covered by unit tests"),
+    );
   }
-  // Keep references alive so M5 can flip these to live with one edit.
-  void floodMatches;
-  void assert;
   return results;
 }
 
@@ -31,9 +53,9 @@ export const floodRisk: EvalCase[] = [
     groundTruth: {
       knownFloodZone: "AE",
       knownInSFHA: true,
-      notes: "Known SFHA; M5 must surface zone AE and inSFHA=true.",
+      notes: "Known SFHA; FEMA must surface an A/V zone and inSFHA=true.",
     },
-    pendingRealData: true,
+    pendingRealData: !LIVE,
     assertions: floodAssertions,
   },
   {
@@ -43,9 +65,9 @@ export const floodRisk: EvalCase[] = [
     groundTruth: {
       knownFloodZone: "X",
       knownInSFHA: false,
-      notes: "Known low-risk; M5 must surface zone X and inSFHA=false.",
+      notes: "Known low-risk; FEMA must surface zone X and inSFHA=false.",
     },
-    pendingRealData: true,
+    pendingRealData: !LIVE,
     assertions: floodAssertions,
   },
 ];

@@ -1,0 +1,1 @@
+{ "status": 1, "walkscore": 88, "description": "Very Walkable", "updated": "2025-12-01", "transit": { "score": 62, "description": "Good Transit" }, "bike": { "score": 70, "description": "Very Bikeable" }, "logo_url": "https://cdn.walk.sc/images/api-logo.png", "help_link": "https://www.walkscore.com/how-it-works/", "ws_link": "https://www.walkscore.com/score/loc" }
