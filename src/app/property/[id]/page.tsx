@@ -18,6 +18,7 @@ export default async function PropertyPage({
   const sp = await searchParams;
   const raw = sp.address;
   const address = (Array.isArray(raw) ? raw[0] : raw)?.trim();
+  const refresh = sp.refresh === "true";
 
   if (!address) {
     return (
@@ -38,7 +39,7 @@ export default async function PropertyPage({
 
   // A thrown error propagates to error.tsx; a not-found address is a valid
   // dossier (unavailable fields + a warning), rendered normally.
-  const dossier = await lookupProperty(address);
+  const dossier = await lookupProperty(address, { refresh });
 
-  return <DossierView dossier={dossier} />;
+  return <DossierView dossier={dossier} address={address} />;
 }

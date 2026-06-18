@@ -43,7 +43,13 @@ export default function RootLayout({
                 <Home className="size-5 text-primary" aria-hidden />
                 Homescout
               </Link>
-              <span className="ml-auto text-xs text-muted-foreground">
+              <Link
+                href="/saved"
+                className="ml-auto text-sm text-muted-foreground hover:text-foreground"
+              >
+                Saved
+              </Link>
+              <span className="hidden text-xs text-muted-foreground sm:inline">
                 Informational only — not advice
               </span>
             </div>

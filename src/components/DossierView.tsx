@@ -4,6 +4,7 @@ import { MockBadge } from "@/components/MockBadge";
 import { Disclaimer } from "@/components/Disclaimer";
 import { SelectedCompProvider } from "@/components/dossier/SelectedCompContext";
 import { DossierHeader } from "@/components/dossier/DossierHeader";
+import { DossierActions } from "@/components/dossier/DossierActions";
 import { PropertyMap } from "@/components/dossier/PropertyMap";
 import { QuickFacts } from "@/components/dossier/QuickFacts";
 import { OwnershipCard } from "@/components/dossier/OwnershipCard";
@@ -19,7 +20,13 @@ import { WarningsBanner } from "@/components/dossier/WarningsBanner";
  * Composes a full dossier. UI only — all data already lives on the Dossier.
  * The map + comps list share selection state via SelectedCompProvider.
  */
-export function DossierView({ dossier }: { dossier: Dossier }) {
+export function DossierView({
+  dossier,
+  address,
+}: {
+  dossier: Dossier;
+  address: string;
+}) {
   const saleComps = dossier.valuation.saleComps.value ?? [];
   const rentalComps = dossier.valuation.rentalComps.value ?? [];
 
@@ -30,6 +37,13 @@ export function DossierView({ dossier }: { dossier: Dossier }) {
         <Disclaimer variant="inline" />
         <WarningsBanner warnings={dossier.warnings} />
         <DossierHeader dossier={dossier} />
+        <DossierActions
+          slug={dossier.id}
+          address={address}
+          formattedAddress={dossier.identity.formattedAddress}
+          valuePoint={dossier.valuation.valueEstimate.value?.point ?? null}
+          confidence={dossier.valuation.valueEstimate.confidence}
+        />
 
         <div className="grid gap-4 lg:grid-cols-[1.5fr_1fr]">
           <PropertyMap

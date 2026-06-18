@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, FileText, Search } from "lucide-react";
 import { SearchBox } from "@/components/SearchBox";
+import { RecentLookups } from "@/components/RecentLookups";
 import { addressToSlug } from "@/lib/utils/id";
 
 const EXAMPLES = [
@@ -52,6 +53,8 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      <RecentLookups />
 
       <section className="grid gap-4 sm:grid-cols-3">
         {STEPS.map((step) => (
