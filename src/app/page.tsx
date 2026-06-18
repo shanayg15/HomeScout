@@ -13,8 +13,8 @@ const EXAMPLES = [
 const STEPS = [
   {
     icon: Search,
-    title: "Paste an address",
-    body: "Any US residential address — street, city, state, ZIP.",
+    title: "Paste an address or listing link",
+    body: "Any US address — or a listing link (we read only the address, never the listing's content).",
   },
   {
     icon: MapPin,

@@ -42,6 +42,19 @@ describe("computeDealSignals", () => {
     expect(s.grossYieldPct).toBeCloseTo(6.9, 1);
     expect(["high", "medium", "low"]).toContain(s.confidence);
   });
+
+  it("computes asking-vs-estimate when an asking price is given", () => {
+    const m = getMockDossier("123 Test St, Austin, TX 78701");
+    const s = computeDealSignals({
+      valuation: m.valuation,
+      flood: m.flood,
+      neighborhood: m.neighborhood,
+      askingPrice: 470000,
+    });
+    expect(s.askingPrice).toBe(470000);
+    expect(s.askingWithinRange).toBe(true); // 470k within 420k–482k
+    expect(s.askingVsEstimatePct).toBeCloseTo(4.4, 1); // (470−450)/450
+  });
 });
 
 describe("finalizeDeal", () => {

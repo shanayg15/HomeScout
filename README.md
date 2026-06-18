@@ -21,15 +21,43 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 7 of 8 — polish & persistence.** Postgres-backed lookup cache
-(Drizzle, with a JSON-file fallback so it runs without Docker), **saved + recent
-lookups** (local-first, private to your browser), a quota-aware **Refresh**
-control, freshness/source labels everywhere, and a hardened adversarial eval set.
+**v1 — complete.** Paste an address (or a listing link) → a readable,
+plain-English dossier from public/licensed data: ownership/tax, value & rent
+estimates with ranges + comps on an interactive map, FEMA flood + walkability +
+demographics, a plain-English zoning explanation, and a grounded "is this a good
+deal?" read — every value carrying its source, confidence, and freshness, and
+nothing ever fabricated. Saved/recent lookups, optional Postgres persistence, and
+an adversarial eval suite round it out. Runs offline on mocks by default; add keys
+to unlock real data (each optional, each degrades gracefully).
 
-Earlier milestones: zoning plain-English + the grounded "good deal?" read (M6),
-risk & neighborhood signals (M5), dossier UI + MapLibre map (M4), real RentCast +
-Census lookup with caching (M3), eval harness (M2). The default is still mocks
-(`USE_MOCKS=true`), so a fresh clone runs offline.
+## Listing links & asking price
+
+- **Listing links (ToS-safe).** Paste a listing URL and we extract **only the
+  address from the URL string** — we never fetch the page, and never copy a
+  listing's price, description, photos, or any content. If we can't read an
+  address from the link, we ask you to paste it. The metadata-fetch allowlist is
+  intentionally empty (Zillow/Redfin/Realtor.com are not on it).
+- **Asking price.** Optionally enter an asking price on the dossier (we never
+  scrape it). It flows into the deal read — "your asking is within / N% above the
+  estimated range" — clearly labeled as your figure, not our estimate.
+
+## Demo (try these)
+
+Real, well-covered addresses that show the app at its best (real with a RentCast
+key; clearly-badged mock otherwise):
+
+- `5500 Grand Lake Dr, San Antonio, TX 78244`
+- `1600 Pennsylvania Ave NW, Washington, DC 20500`
+- `1 Beach Rd, Galveston, TX 77550` (coastal — a real FEMA flood zone)
+- A listing link, e.g. `https://www.zillow.com/homedetails/5500-Grand-Lake-Dr-San-Antonio-TX-78244/12345_zpid/`
+  → resolves to the address, then the standard public-data dossier.
+
+## Future: OpenSwarm packaging (not part of v1)
+
+The clean `lib/services` layer is designed so a later phase can wrap the verbs
+(`lookupProperty`, `pullComps`, `assessRisk`, `scoreDeal`, `summarizeListing`) as
+an MCP server + SKILL.md + View + Cron — reusing everything here. **None of that
+is built in this repo.** See [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## AI explanations
 
