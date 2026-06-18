@@ -30,7 +30,7 @@ export function SectionSources({
     >
       Source: {sourceLabel(sourced.source)} · Confidence: {sourced.confidence} ·{" "}
       {AVAILABILITY_LABEL[sourced.availability]} · As of:{" "}
-      {sourced.asOf ? formatDate(sourced.asOf) : "—"}
+      {sourced.asOf ? formatDate(sourced.asOf) : "-"}
     </p>
   );
 }

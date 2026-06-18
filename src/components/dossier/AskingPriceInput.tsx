@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils/format";
 
 /**
- * Optional user-entered asking price. We never scrape it from a listing — the
+ * Optional user-entered asking price. We never scrape it from a listing - the
  * user provides it. It flows into the deal read (asking-vs-estimate framing) via
  * the URL, clearly labeled as the user's figure (not our estimate).
  */
@@ -33,7 +33,7 @@ export function AskingPriceInput({
   return (
     <div className="rounded-lg border bg-muted/20 p-3">
       <label htmlFor="asking" className="text-xs text-muted-foreground">
-        Asking price (optional — you enter this; we never scrape it)
+        Asking price (optional - you enter this; we never scrape it)
       </label>
       <form
         className="mt-1 flex gap-2"
@@ -73,7 +73,7 @@ export function AskingPriceInput({
           <span className="font-medium text-foreground">
             {formatCurrency(current)}
           </span>{" "}
-          — your figure, not our estimate.
+          - your figure, not our estimate.
         </p>
       ) : null}
     </div>

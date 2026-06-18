@@ -32,7 +32,7 @@ export function QuickFacts({ dossier }: { dossier: Dossier }) {
             <SourcedValue
               sourced={deal.grossYieldPct}
               format={(v) => formatPercent(v)}
-              emptyText="—"
+              emptyText="-"
             />
           </p>
         </div>
@@ -73,7 +73,7 @@ function Estimate({
         <SourcedValue<MoneyRange>
           sourced={sourced}
           format={(range) => formatRange(range)}
-          emptyText="—"
+          emptyText="-"
         />
       </p>
     </div>
@@ -93,7 +93,7 @@ function Mini({
     <div>
       <dt className="text-xs text-muted-foreground">{label}</dt>
       <dd className="mt-0.5 font-medium">
-        <SourcedValue sourced={sourced} format={format} emptyText="—" />
+        <SourcedValue sourced={sourced} format={format} emptyText="-" />
       </dd>
     </div>
   );

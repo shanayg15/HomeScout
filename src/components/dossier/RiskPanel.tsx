@@ -12,7 +12,7 @@ import { SourcedValue } from "./SourcedValue";
 import { formatCurrency, formatPercent } from "@/lib/utils/format";
 
 /**
- * Risk & neighborhood signals — flood (FEMA), walkability (Walk Score),
+ * Risk & neighborhood signals - flood (FEMA), walkability (Walk Score),
  * demographics (Census ACS), and area-level crime context (FBI / open data).
  * All informational, never a verdict; each degrades to "Not available".
  */
@@ -59,7 +59,7 @@ export function RiskPanel({ dossier }: { dossier: Dossier }) {
             ) : null}
           </dl>
           <p className="text-xs text-muted-foreground">
-            Informational only — not a certified flood determination (SFHDF),
+            Informational only - not a certified flood determination (SFHDF),
             which comes from a licensed provider or your lender.
           </p>
           <SectionSources sourced={flood.zone} />
@@ -79,13 +79,13 @@ export function RiskPanel({ dossier }: { dossier: Dossier }) {
           </h3>
           <dl className="grid grid-cols-3 gap-3">
             <Field label="Walk Score">
-              <SourcedValue sourced={neighborhood.walkScore} emptyText="—" />
+              <SourcedValue sourced={neighborhood.walkScore} emptyText="-" />
             </Field>
             <Field label="Transit Score">
-              <SourcedValue sourced={neighborhood.transitScore} emptyText="—" />
+              <SourcedValue sourced={neighborhood.transitScore} emptyText="-" />
             </Field>
             <Field label="Bike Score">
-              <SourcedValue sourced={neighborhood.bikeScore} emptyText="—" />
+              <SourcedValue sourced={neighborhood.bikeScore} emptyText="-" />
             </Field>
           </dl>
           <p className="text-xs text-muted-foreground">
@@ -145,7 +145,7 @@ export function RiskPanel({ dossier }: { dossier: Dossier }) {
             <SourcedValue sourced={neighborhood.crimeContext} />
           </p>
           <p className="text-xs text-muted-foreground">
-            Area-level context for the surrounding city/county only — not a
+            Area-level context for the surrounding city/county only - not a
             statement about this specific property or block, and not a
             safety rating.
           </p>

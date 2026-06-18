@@ -4,7 +4,7 @@ import { InfoTooltip } from "./InfoTooltip";
 
 /**
  * Render a single `Sourced` value. When unavailable (or null), renders
- * "Not available" with the note in a tooltip — NEVER a zero, blank, or guess.
+ * "Not available" with the note in a tooltip - NEVER a zero, blank, or guess.
  */
 export function SourcedValue<T>({
   sourced,
@@ -15,7 +15,7 @@ export function SourcedValue<T>({
   sourced: Sourced<T>;
   format?: (value: T) => string;
   className?: string;
-  /** Text shown when unavailable (e.g. "—" for compact rails). */
+  /** Text shown when unavailable (e.g. "-" for compact rails). */
   emptyText?: string;
 }) {
   if (sourced.availability === "unavailable" || sourced.value === null) {

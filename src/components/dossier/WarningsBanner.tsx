@@ -2,7 +2,7 @@ import { TriangleAlert } from "lucide-react";
 
 /**
  * Visible banner for dossier-level warnings (limited coverage, unresolved
- * address, rate limits). The mock-data notice is excluded — the MockBadge
+ * address, rate limits). The mock-data notice is excluded - the MockBadge
  * already covers that.
  */
 export function WarningsBanner({ warnings }: { warnings: string[] }) {

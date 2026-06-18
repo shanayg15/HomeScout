@@ -54,7 +54,7 @@ export function SourcesSummary({ dossier }: { dossier: Dossier }) {
                   {AVAILABILITY_LABEL[e.sourced.availability]}
                 </td>
                 <td className="py-1.5 text-muted-foreground">
-                  {e.sourced.asOf ? formatDate(e.sourced.asOf) : "—"}
+                  {e.sourced.asOf ? formatDate(e.sourced.asOf) : "-"}
                 </td>
               </tr>
             ))}

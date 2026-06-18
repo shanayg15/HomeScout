@@ -48,7 +48,7 @@ export function OwnershipCard({ dossier }: { dossier: Dossier }) {
             <ul className="space-y-1 text-muted-foreground">
               {priorSales.value.map((sale) => (
                 <li key={`${sale.date}-${sale.price}`}>
-                  {formatDate(sale.date)} — {formatCurrency(sale.price)}
+                  {formatDate(sale.date)} - {formatCurrency(sale.price)}
                 </li>
               ))}
             </ul>
