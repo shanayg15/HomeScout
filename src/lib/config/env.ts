@@ -24,4 +24,9 @@ export const env = {
    * tiles when unset, so a fresh clone renders a map without any signup.
    */
   MAPTILER_API_KEY: process.env.MAPTILER_API_KEY ?? "",
+  /**
+   * Postgres connection string. Optional — when unset, the lookup cache falls
+   * back to a local JSON-file cache, so a fresh clone runs without Docker.
+   */
+  DATABASE_URL: process.env.DATABASE_URL ?? "",
 };
