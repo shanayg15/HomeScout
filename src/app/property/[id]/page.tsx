@@ -26,8 +26,8 @@ export default async function PropertyPage({
 
   if (!address) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
+      <div className="mx-auto w-full max-w-6xl space-y-6 px-4 py-10 sm:px-6">
+        <h1 className="font-serif text-3xl font-medium tracking-tight">
           Search for a property
         </h1>
         <p className="text-muted-foreground">
@@ -46,6 +46,12 @@ export default async function PropertyPage({
   const dossier = await lookupProperty(address, { refresh, askingPrice });
 
   return (
-    <DossierView dossier={dossier} address={address} askingPrice={askingPrice} />
+    <div className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">
+      <DossierView
+        dossier={dossier}
+        address={address}
+        askingPrice={askingPrice}
+      />
+    </div>
   );
 }

@@ -12,7 +12,7 @@ export default function DossierError({
   reset: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-xl space-y-4 rounded-xl border p-6 text-center">
+    <div className="mx-auto my-12 max-w-xl space-y-4 rounded-xl border p-6 text-center">
       <TriangleAlert className="mx-auto size-8 text-amber-600" aria-hidden />
       <h1 className="text-xl font-semibold">We couldn&rsquo;t generate this dossier</h1>
       <p className="text-sm text-muted-foreground">

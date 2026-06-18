@@ -21,8 +21,10 @@ export default function SavedPage() {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Saved properties</h1>
+    <div className="mx-auto w-full max-w-6xl space-y-6 px-4 py-8 sm:px-6">
+      <h1 className="font-serif text-3xl font-medium tracking-tight">
+        Saved properties
+      </h1>
 
       {items.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed p-10 text-center">
