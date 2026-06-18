@@ -26,7 +26,7 @@ function un<T>(source: DataSource, note: string): Sourced<T> {
 // ---- later-milestone placeholders ----
 
 export function placeholderFlood(): FloodRisk {
-  const note = "Flood risk (FEMA) added in a later step (M5).";
+  const note = "Flood risk temporarily unavailable.";
   return {
     zone: un("fema", note),
     inSFHA: un("fema", note),
@@ -35,14 +35,14 @@ export function placeholderFlood(): FloodRisk {
 }
 
 export function placeholderNeighborhood(): Neighborhood {
-  const m5 = "Added in a later step (M5).";
+  const note = "Neighborhood signal temporarily unavailable.";
   return {
-    walkScore: un("walkscore", m5),
-    transitScore: un("walkscore", m5),
-    bikeScore: un("walkscore", m5),
-    medianHouseholdIncome: un("census", m5),
-    ownerOccupiedRate: un("census", m5),
-    crimeContext: un("fbi_crime", m5),
+    walkScore: un("walkscore", note),
+    transitScore: un("walkscore", note),
+    bikeScore: un("walkscore", note),
+    medianHouseholdIncome: un("census", note),
+    ownerOccupiedRate: un("census", note),
+    crimeContext: un("fbi_crime", note),
   };
 }
 

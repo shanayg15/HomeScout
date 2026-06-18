@@ -32,5 +32,13 @@ export interface GeocodeProvider {
 
 export interface RiskProvider {
   getFlood(identity: PropertyIdentity): Promise<FloodRisk>;
-  getNeighborhood(identity: PropertyIdentity): Promise<Neighborhood>;
+  getWalkability(
+    identity: PropertyIdentity,
+  ): Promise<Pick<Neighborhood, "walkScore" | "transitScore" | "bikeScore">>;
+  getDemographics(
+    identity: PropertyIdentity,
+  ): Promise<Pick<Neighborhood, "medianHouseholdIncome" | "ownerOccupiedRate">>;
+  getCrime(
+    identity: PropertyIdentity,
+  ): Promise<Pick<Neighborhood, "crimeContext">>;
 }
