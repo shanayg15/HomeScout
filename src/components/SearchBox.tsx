@@ -6,10 +6,12 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addressToSlug } from "@/lib/utils/id";
+import { isUrl, extractAddressFromListingUrl } from "@/lib/listing/extractAddress";
 
 /**
- * Address search box. Normalizes the input into a slug and routes to the
- * dossier page, carrying the raw address as a query param.
+ * Address (or listing-link) search. If the input is a URL, we extract ONLY the
+ * address from the URL string (no page fetch, no listing content) and run the
+ * normal dossier; if we can't read an address, we ask the user to paste one.
  */
 export function SearchBox({
   initialValue = "",
@@ -20,16 +22,31 @@ export function SearchBox({
 }) {
   const router = useRouter();
   const [value, setValue] = useState(initialValue);
+  const [error, setError] = useState<string | null>(null);
 
   const trimmed = value.trim();
   const canSubmit = trimmed.length > 0;
 
+  function goTo(address: string) {
+    const slug = addressToSlug(address) || "property";
+    router.push(`/property/${slug}?address=${encodeURIComponent(address)}`);
+  }
+
   function submit() {
     if (!canSubmit) return;
-    const slug = addressToSlug(trimmed) || "property";
-    router.push(
-      `/property/${slug}?address=${encodeURIComponent(trimmed)}`,
-    );
+    setError(null);
+
+    if (isUrl(trimmed)) {
+      const res = extractAddressFromListingUrl(trimmed);
+      if (res.address) {
+        goTo(res.address);
+      } else {
+        setError(res.note ?? "Paste the property address instead.");
+      }
+      return;
+    }
+
+    goTo(trimmed);
   }
 
   return (
@@ -44,22 +61,24 @@ export function SearchBox({
         <Input
           type="text"
           name="address"
-          aria-label="Property address"
-          placeholder="Paste an address, e.g. 1600 Pennsylvania Ave NW, Washington, DC 20500"
+          aria-label="Property address or listing link"
+          placeholder="Paste an address or a listing link"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => {
+            setValue(e.target.value);
+            if (error) setError(null);
+          }}
           className="h-11 flex-1"
           autoComplete="off"
         />
-        <Button
-          type="submit"
-          disabled={!canSubmit}
-          className="h-11 px-6"
-        >
+        <Button type="submit" disabled={!canSubmit} className="h-11 px-6">
           <Search className="size-4" aria-hidden />
           Search
         </Button>
       </div>
+      {error ? (
+        <p className="mt-2 text-sm text-amber-700 dark:text-amber-400">{error}</p>
+      ) : null}
     </form>
   );
 }
