@@ -55,7 +55,7 @@ export async function fetchJson<T = unknown>(
       return (await res.json()) as T;
     } catch (err) {
       clearTimeout(timer);
-      // Typed HTTP errors are terminal — do not retry them.
+      // Typed HTTP errors are terminal - do not retry them.
       if (
         err instanceof NotFoundError ||
         err instanceof RateLimitedError ||
@@ -63,7 +63,7 @@ export async function fetchJson<T = unknown>(
       ) {
         throw err;
       }
-      lastNetworkError = err; // network/abort — retry if attempts remain
+      lastNetworkError = err; // network/abort - retry if attempts remain
     }
   }
 

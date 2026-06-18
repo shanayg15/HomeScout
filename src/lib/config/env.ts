@@ -20,12 +20,12 @@ export const env = {
    */
   CACHE_TTL_DAYS: Number(process.env.CACHE_TTL_DAYS ?? "7"),
   /**
-   * Map tile key (MapTiler). Optional — the map falls back to free OSM raster
+   * Map tile key (MapTiler). Optional - the map falls back to free OSM raster
    * tiles when unset, so a fresh clone renders a map without any signup.
    */
   MAPTILER_API_KEY: process.env.MAPTILER_API_KEY ?? "",
   /**
-   * Postgres connection string. Optional — when unset, the lookup cache falls
+   * Postgres connection string. Optional - when unset, the lookup cache falls
    * back to a local JSON-file cache, so a fresh clone runs without Docker.
    */
   DATABASE_URL: process.env.DATABASE_URL ?? "",

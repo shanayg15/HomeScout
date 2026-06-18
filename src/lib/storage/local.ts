@@ -3,7 +3,7 @@
  *
  * We keep these client-side on purpose: no auth, and a user's search history is
  * private data we don't need on the server (the privacy guardrail). All
- * functions are safe to call during SSR — they no-op / return [] without a
+ * functions are safe to call during SSR - they no-op / return [] without a
  * window.
  */
 import type { Confidence } from "@/lib/types/dossier";
@@ -38,7 +38,7 @@ function write(key: string, items: StoredProperty[]): void {
   try {
     window.localStorage.setItem(key, JSON.stringify(items));
   } catch {
-    /* storage full / disabled — ignore */
+    /* storage full / disabled - ignore */
   }
 }
 

@@ -15,7 +15,7 @@ describe("isUrl", () => {
 });
 
 describe("extractAddressFromListingUrl", () => {
-  it("never fetches — the metadata allowlist is empty", () => {
+  it("never fetches - the metadata allowlist is empty", () => {
     expect(METADATA_FETCH_ALLOWLIST).toHaveLength(0);
   });
 

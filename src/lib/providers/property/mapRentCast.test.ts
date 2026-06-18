@@ -48,7 +48,7 @@ describe("mapRentCastProperty", () => {
     expect(m.ownership.priorSales.value?.[0].price).toBe(270000);
     expect(m.ownership.priorSales.value?.length).toBe(2);
     expect(m.zoning.code.value).toBe("RH");
-    // Plain-English is an LLM job — must be unavailable + null (no fabrication).
+    // Plain-English is an LLM job - must be unavailable + null (no fabrication).
     expect(m.zoning.plainEnglish.availability).toBe("unavailable");
     expect(m.zoning.plainEnglish.value).toBeNull();
     expect(m.identity.apn).toBe("05076-103-0500");

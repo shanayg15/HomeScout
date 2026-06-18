@@ -6,7 +6,7 @@
 import type { MoneyRange } from "@/lib/types/dossier";
 
 /** The single placeholder used everywhere a value is unknown. */
-export const NOT_AVAILABLE = "—";
+export const NOT_AVAILABLE = "-";
 
 export function formatCurrency(
   value: number | null | undefined,

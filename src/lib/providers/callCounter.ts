@@ -1,7 +1,7 @@
 /**
  * In-process RentCast call counter. The free Developer tier is 50 calls/month,
  * so this makes it obvious in the logs when quota is being burned. (Per-process
- * only — resets on restart; the cache is what actually protects quota.)
+ * only - resets on restart; the cache is what actually protects quota.)
  */
 let count = 0;
 

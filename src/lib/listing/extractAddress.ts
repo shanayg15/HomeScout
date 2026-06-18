@@ -1,10 +1,10 @@
 /**
  * ToS-safe listing-link handling. We extract ONLY the address, and ONLY from the
- * URL string itself — we never fetch the page, never read listing price /
+ * URL string itself - we never fetch the page, never read listing price /
  * description / photos / agent info, and never store listing content. The
  * metadata-fetch allowlist is intentionally empty (Zillow/Redfin/Realtor.com are
  * NOT on it). Anything beyond URL-slug address extraction is a deliberate,
- * flagged decision — not silently built.
+ * flagged decision - not silently built.
  */
 
 export interface ListingAddressResult {
@@ -44,7 +44,7 @@ function spacey(slug: string): string {
 }
 
 /**
- * Extract the property address from a listing URL — URL string only, no fetch.
+ * Extract the property address from a listing URL - URL string only, no fetch.
  * Returns `address: null` (with a friendly note) when we can't, so the UI can
  * ask the user to paste the address instead. Handles two common shapes:
  *  A) `.../5500-Grand-Lake-Dr-San-Antonio-TX-78244/...` (Zillow/Realtor/Trulia)
@@ -58,7 +58,7 @@ export function extractAddressFromListingUrl(input: string): ListingAddressResul
     return {
       address: null,
       method: "user",
-      note: "That doesn't look like a valid link — paste the property address instead.",
+      note: "That doesn't look like a valid link - paste the property address instead.",
     };
   }
 
@@ -104,7 +104,7 @@ export function extractAddressFromListingUrl(input: string): ListingAddressResul
     address: null,
     method: "user",
     note: isKnownListing
-      ? "We read the address from your link and pull public data — we don't copy the listing's content. We couldn't find the address in this link, so paste the property address instead."
-      : "We couldn't read an address from that link — paste the property address instead.",
+      ? "We read the address from your link and pull public data - we don't copy the listing's content. We couldn't find the address in this link, so paste the property address instead."
+      : "We couldn't read an address from that link - paste the property address instead.",
   };
 }

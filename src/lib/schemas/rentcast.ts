@@ -1,13 +1,13 @@
 /**
  * Zod schemas for RAW RentCast responses, against the live-verified schema
- * (developers.rentcast.io, June 2026). These are intentionally lenient —
- * every field optional/nullable — because coverage varies by county/state and
+ * (developers.rentcast.io, June 2026). These are intentionally lenient -
+ * every field optional/nullable - because coverage varies by county/state and
  * we must degrade to "unavailable" rather than throw. We validate shape, then
  * map into our `Sourced<>` dossier fields (mapRentCast.ts).
  *
  * Key verified facts baked in here:
  *  - GET /properties returns an ARRAY (empty [] = not found).
- *  - owner is { names: string[] } — there is no flat ownerName.
+ *  - owner is { names: string[] } - there is no flat ownerName.
  *  - taxAssessments / propertyTaxes / history are OBJECTS keyed by year/date.
  *  - AVM responses are single OBJECTS; a comp's value (sale OR rent) is `price`;
  *    similarity is `correlation`.

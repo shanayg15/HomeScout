@@ -1,5 +1,5 @@
 /**
- * Provider interfaces — the seams between the service layer and concrete data
+ * Provider interfaces - the seams between the service layer and concrete data
  * sources. Real implementations (RentCast, Census, FEMA, …) arrive in later
  * milestones; the mock provider implements the same shapes so the service layer
  * never depends on a concrete source.
