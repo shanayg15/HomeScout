@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: homescout
       POSTGRES_DB: homescout
     ports:
-      - "5448:5432"
+      - "5450:5432"
     volumes:
       - homescout_pgdata:/var/lib/postgresql/data
     healthcheck:

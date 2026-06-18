@@ -8,7 +8,7 @@ import { Pool } from "pg";
 
 const url =
   process.env.DATABASE_URL ||
-  "postgres://homescout:homescout@localhost:5448/homescout";
+  "postgres://homescout:homescout@localhost:5450/homescout";
 
 async function main() {
   const pool = new Pool({ connectionString: url });

@@ -5,6 +5,7 @@ import { regionalExtremes } from "./regional-extremes";
 import { zoning } from "./zoning";
 import { floodRisk } from "./flood-risk";
 import { noHallucination } from "./no-hallucination";
+import { manipulatedInput } from "./manipulated-input";
 
 export const allCases: EvalCase[] = [
   ...happyPath,
@@ -13,4 +14,5 @@ export const allCases: EvalCase[] = [
   ...zoning,
   ...floodRisk,
   ...noHallucination,
+  ...manipulatedInput,
 ];

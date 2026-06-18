@@ -15,22 +15,21 @@ dossier* experience for renters and buyers using public data, **not** their
 brand and **not** their niche-CRE dataset / data-collection engine. We never
 scrape Zillow, Redfin, or Realtor.com.
 
+> **Not affiliated with Travo.** Homescout is an independent open-source
+> implementation of the *idea* (search a property → instant dossier) on
+> public/licensed data — none of Travo's brand, copy, code, or niche-CRE dataset.
+
 ## Project status
 
-**Milestone 6 of 8 — zoning translation + the "good deal?" read.** Two
-AI-powered pieces: a conservative **plain-English zoning** explanation and the
-grounded **"is this a good deal?"** read. Both follow a strict **compute-in-code,
-explain-with-the-LLM** pattern — the deal read is grounded only in real dossier
-numbers, shows a confidence level + the exact data points used, and **never**
-emits an absolute verdict or an invented figure (a code-side guardrail replaces
-any non-compliant model output with a safe template). `ANTHROPIC_API_KEY` is
-optional; without it these degrade to "Not available" while the deterministic
-gross-yield math still shows.
+**Milestone 7 of 8 — polish & persistence.** Postgres-backed lookup cache
+(Drizzle, with a JSON-file fallback so it runs without Docker), **saved + recent
+lookups** (local-first, private to your browser), a quota-aware **Refresh**
+control, freshness/source labels everywhere, and a hardened adversarial eval set.
 
-Earlier milestones: risk & neighborhood signals (M5), polished dossier UI +
-MapLibre map (M4), real RentCast + Census lookup with caching (M3), eval harness
-(M2). The default is still mocks (`USE_MOCKS=true`), so a fresh clone runs
-offline.
+Earlier milestones: zoning plain-English + the grounded "good deal?" read (M6),
+risk & neighborhood signals (M5), dossier UI + MapLibre map (M4), real RentCast +
+Census lookup with caching (M3), eval harness (M2). The default is still mocks
+(`USE_MOCKS=true`), so a fresh clone runs offline.
 
 ## AI explanations
 
@@ -124,6 +123,25 @@ determination**; every signal degrades to "Not available" rather than guessing.
 | `npm test` | Vitest unit tests. |
 | `npm run eval` | Run the eval suite (fails non-zero on any MUST failure). |
 | `npm run eval:json` | Same, plus write `evals/last-run.json`. |
+| `npm run db:generate` | Generate Drizzle migrations from the schema. |
+| `npm run db:migrate` | Apply migrations (after `docker compose up -d`). |
+
+## Persistence (optional Postgres)
+
+The lookup cache works out of the box as a local JSON-file cache (under
+`.cache/`, gitignored) — no setup required. To use Postgres instead (shared,
+survives restarts):
+
+```bash
+docker compose up -d                 # Postgres + pgvector on port 5450
+echo 'DATABASE_URL=postgres://homescout:homescout@localhost:5450/homescout' >> .env
+npm run db:migrate
+```
+
+The app picks Postgres automatically when `DATABASE_URL` is set, and falls back
+to the file cache when it isn't. **Saved and recent lookups are local-first**
+(stored in your browser's `localStorage`, never sent to a server) — there are no
+accounts and no server-side personal data.
 
 ## Evals
 

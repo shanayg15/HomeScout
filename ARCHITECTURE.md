@@ -57,12 +57,30 @@ interface Cache {
 ```
 
 Keyed by the normalized address slug, so a repeat lookup costs **0 API calls**.
-The M3 impl (`FileCache`) is a dependency-light JSON-file cache (one file per key
-under `.cache/`) — chosen over a native SQLite module to keep a clean-clone
-`npm install` build-free on any Node version. TTLs: a found dossier lives
-`CACHE_TTL_DAYS` (default 7); a not-found result is cached for 1 day; a transient
-provider error is **never** cached (so adding a key / waiting out a rate limit
-re-fetches). M7 swaps `FileCache` for Postgres behind the same interface.
+Two impls behind the one interface, selected by `DATABASE_URL`:
+
+- `PostgresCache` (M7, Drizzle) — a `lookups` table (`slug` PK, `dossier` jsonb,
+  `fetched_at`, `expires_at`). Used when `DATABASE_URL` is set; survives restarts
+  and is shared across instances. Migrations in `drizzle/`, applied with
+  `npm run db:migrate`; `docker-compose.yml` brings up Postgres + pgvector.
+- `FileCache` (M3) — a dependency-light JSON-file cache (one file per key under
+  `.cache/`), the default when there's no `DATABASE_URL`, so a clean clone runs
+  without Docker.
+
+TTLs: a found dossier lives `CACHE_TTL_DAYS` (default 7); a not-found result is
+cached for 1 day; a transient provider error is **never** cached (so adding a key
+/ waiting out a rate limit re-fetches). Saved + recent lookups are **local-first**
+(browser `localStorage`), not server-stored, per the privacy guardrail.
+
+## Future: OpenSwarm (not built here)
+
+The whole point of the clean service layer is that the eventual OpenSwarm phase
+is a thin wrapper, not a rewrite: an MCP server exposing the existing
+`lib/services` verbs (`lookupProperty`, `pullComps`, `assessRisk`, `scoreDeal`,
+`summarizeListing`), a SKILL.md, a View reusing these components, and Cron for
+monitoring. **None of that exists in this repo** — no MCP/OpenSwarm code is added
+in any milestone. Keeping logic in `lib/services` and gating side-effects is what
+keeps that on-ramp cheap.
 
 ## The `Sourced<T>` provenance pattern
 
