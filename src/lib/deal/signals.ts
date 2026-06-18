@@ -1,5 +1,5 @@
 /**
- * Deterministic deal signals — computed in code from real dossier numbers only.
+ * Deterministic deal signals - computed in code from real dossier numbers only.
  * The LLM later EXPLAINS these; it never invents figures. The safe-template
  * summary is built here too, so a guardrail trip always has a grounded,
  * verdict-free fallback.
@@ -110,7 +110,7 @@ export function computeDealSignals(input: {
   };
 }
 
-/** The set of numbers the dossier supports — used by the no-invented-figures guard. */
+/** The set of numbers the dossier supports - used by the no-invented-figures guard. */
 export function figureCandidates(s: DealSignals): FigureCandidates {
   const usd = [
     s.valuePoint,
@@ -160,7 +160,7 @@ export function buildSafeDealSummary(s: DealSignals): string {
   }
   parts.push(`Confidence is ${s.confidence} because ${s.confidenceReason}.`);
   parts.push(
-    "This is informational only — not appraisal or financial advice. Verify with a licensed professional.",
+    "This is informational only - not appraisal or financial advice. Verify with a licensed professional.",
   );
   return parts.join(" ");
 }

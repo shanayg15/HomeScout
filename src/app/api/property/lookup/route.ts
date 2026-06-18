@@ -6,7 +6,7 @@ import { lookupProperty } from "@/lib/services/lookupProperty";
  *
  * Thin route handler: parse the query, call the service, return JSON. No
  * business logic lives here. A not-found address is still a valid 200 result
- * (the dossier shows fields as "unavailable") — only genuine failures are 500.
+ * (the dossier shows fields as "unavailable") - only genuine failures are 500.
  */
 export async function GET(request: NextRequest) {
   const address = request.nextUrl.searchParams.get("address")?.trim();
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
   try {
     // A not-found address is a valid 200 result (dossier with unavailable
-    // fields), not an error — only genuine failures become 500.
+    // fields), not an error - only genuine failures become 500.
     const dossier = await lookupProperty(address, { refresh, askingPrice });
     return NextResponse.json(dossier);
   } catch (err) {

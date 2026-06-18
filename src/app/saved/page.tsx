@@ -69,7 +69,7 @@ export default function SavedPage() {
                 <span className="text-muted-foreground">
                   Est. value{" "}
                   <span className="font-medium text-foreground">
-                    {p.valuePoint != null ? formatCurrency(p.valuePoint) : "—"}
+                    {p.valuePoint != null ? formatCurrency(p.valuePoint) : "-"}
                   </span>
                 </span>
                 <ConfidenceChip confidence={p.confidence} withInfo={false} />

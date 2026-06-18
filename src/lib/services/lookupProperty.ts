@@ -29,7 +29,7 @@ const NOT_FOUND_TTL_SECONDS = 24 * 60 * 60; // 1 day
  * routes only ever call this.
  *
  * Mock path (`USE_MOCKS=true`, the default) returns the monolithic mock dossier
- * — preserving the eval sentinels. Real path orchestrates geocoding → cache →
+ * - preserving the eval sentinels. Real path orchestrates geocoding → cache →
  * RentCast record + AVM/comps → deterministic gross yield, with M5/M6 sections
  * as graceful "unavailable" placeholders. Never fabricates a value.
  */
@@ -42,7 +42,7 @@ export async function lookupProperty(
     : await lookupPropertyReal(rawAddress, opts);
 
   // A user-entered asking price recomputes ONLY the deal read on the assembled
-  // dossier — no provider re-fetch, no extra quota. Honors the M6 guardrails.
+  // dossier - no provider re-fetch, no extra quota. Honors the M6 guardrails.
   if (opts.askingPrice == null) return base;
   const deal = await scoreDeal({
     valuation: base.valuation,
@@ -64,7 +64,7 @@ async function lookupPropertyReal(
   // 1. Geocode / normalize.
   const geo = await providers.geo.geocode(rawAddress);
   if (!geo.matched) {
-    warnings.push("Could not resolve this address — results may be limited.");
+    warnings.push("Could not resolve this address - results may be limited.");
   }
 
   // 2. Stable cache key.
@@ -79,12 +79,12 @@ async function lookupPropertyReal(
       try {
         return validateDossier(cached.dossier);
       } catch {
-        // Stale/invalid cache shape — fall through and refetch.
+        // Stale/invalid cache shape - fall through and refetch.
       }
     }
   }
 
-  // 4-5. Property record, valuation+comps, and risk signals — in PARALLEL.
+  // 4-5. Property record, valuation+comps, and risk signals - in PARALLEL.
   //      assessRisk catches internally; record/valuation surface their errors.
   const recordP = providers.property.getPropertyRecord(geo.identity);
   const valuationP = pullComps(geo.identity);
@@ -98,8 +98,8 @@ async function lookupPropertyReal(
     providerErrored = true;
     warnings.push(
       err instanceof RateLimitedError
-        ? "RentCast quota/rate limit reached — property record is incomplete."
-        : "Property record lookup failed — showing what we could find.",
+        ? "RentCast quota/rate limit reached - property record is incomplete."
+        : "Property record lookup failed - showing what we could find.",
     );
   }
 
@@ -110,7 +110,7 @@ async function lookupPropertyReal(
     providerErrored = true;
     warnings.push(
       err instanceof RateLimitedError
-        ? "RentCast quota/rate limit reached — value/rent estimates are unavailable."
+        ? "RentCast quota/rate limit reached - value/rent estimates are unavailable."
         : "Value/rent estimate lookup failed.",
     );
     valuation = emptyValuation();
@@ -119,7 +119,7 @@ async function lookupPropertyReal(
   const { flood, neighborhood } = await riskP;
 
   // 6. Assemble. Sections missing because of a provider error degrade to
-  //    unavailable — never a fabricated number.
+  //    unavailable - never a fabricated number.
   const identity = record.identity ?? geo.identity;
   const structure = record.structure ?? emptyStructure();
   const ownership = record.ownership ?? emptyOwnership();
@@ -144,7 +144,7 @@ async function lookupPropertyReal(
     valuation.valueEstimate.availability === "unavailable" &&
     valuation.rentEstimate.availability === "unavailable"
   ) {
-    warnings.push("Limited data coverage for this area — confidence is reduced.");
+    warnings.push("Limited data coverage for this area - confidence is reduced.");
   }
 
   const assembled: Dossier = {
@@ -165,7 +165,7 @@ async function lookupPropertyReal(
 
   const dossier = validateDossier(assembled);
 
-  // 7. Cache — but never cache a transient provider error.
+  // 7. Cache - but never cache a transient provider error.
   if (!providerErrored) {
     const notFound = (record.warnings?.length ?? 0) > 0;
     const ttlSeconds = notFound

@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 /**
  * Dossier page. Server component: reads the raw address from the (async, in
  * Next 16) search params, calls the service directly, and renders the dossier.
- * No business logic here — only orchestration of the service + view.
+ * No business logic here - only orchestration of the service + view.
  */
 export default async function PropertyPage({
   searchParams,

@@ -1,5 +1,5 @@
 /**
- * Output guardrail for the "good deal?" read — the structural enforcement of the
+ * Output guardrail for the "good deal?" read - the structural enforcement of the
  * "information, not advice" hard line. Used both by the deal service (to reject
  * + replace bad LLM output) and by the eval `noAbsoluteVerdict` assertion, so
  * the banned list has a single source of truth.
@@ -51,7 +51,7 @@ export interface FigureCandidates {
 }
 
 /**
- * Figures in `text` that DON'T correspond to any number the dossier provided —
+ * Figures in `text` that DON'T correspond to any number the dossier provided -
  * the "no invented numbers" check. Empty array ⇒ everything is grounded.
  */
 export function ungroundedFigures(

@@ -23,7 +23,7 @@ function mockSignals(): DealSignals {
 
 describe("guardrail", () => {
   it("flags banned-verdict phrasing", () => {
-    expect(bannedVerdict("you should buy this — it's a safe investment")).not.toBeNull();
+    expect(bannedVerdict("you should buy this - it's a safe investment")).not.toBeNull();
     expect(bannedVerdict("the asking price appears modestly above the range")).toBeNull();
   });
 

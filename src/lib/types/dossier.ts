@@ -1,12 +1,12 @@
 /**
- * Homescout — the core data contract.
+ * Homescout - the core data contract.
  *
  * Every later milestone fills real providers behind these shapes, so this file
  * is the single most important contract in the codebase. The governing design
  * principle (the "info, not advice" hard line) is structural: every datum is a
  * {@link Sourced} value that carries its source, confidence, and availability.
  * When a value isn't known, `value` is `null`, `availability` is `"unavailable"`,
- * and a human `note` explains why — we never fabricate a placeholder number.
+ * and a human `note` explains why - we never fabricate a placeholder number.
  */
 
 // ---- provenance primitives ----
@@ -124,7 +124,7 @@ export interface Valuation {
 export interface Zoning {
   /** Raw zoning code, e.g. "R-1". */
   code: Sourced<string>;
-  /** Plain-English meaning — filled by the LLM in M6; unavailable until then. */
+  /** Plain-English meaning - filled by the LLM in M6; unavailable until then. */
   plainEnglish: Sourced<string>;
   recentPermits: Sourced<
     Array<{ date: string; description: string; status?: string }>
@@ -147,7 +147,7 @@ export interface Neighborhood {
   medianHouseholdIncome: Sourced<number>;
   /** 0..1. */
   ownerOccupiedRate: Sourced<number>;
-  /** Descriptive, area-level context — NEVER a safety verdict. */
+  /** Descriptive, area-level context - NEVER a safety verdict. */
   crimeContext: Sourced<string>;
 }
 

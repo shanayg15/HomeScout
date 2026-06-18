@@ -4,7 +4,7 @@ import Link from "next/link";
 import { TriangleAlert } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 
-/** Friendly hard-error state with a retry — never a stack trace. */
+/** Friendly hard-error state with a retry - never a stack trace. */
 export default function DossierError({
   reset,
 }: {
@@ -17,7 +17,7 @@ export default function DossierError({
       <h1 className="text-xl font-semibold">We couldn&rsquo;t generate this dossier</h1>
       <p className="text-sm text-muted-foreground">
         Something went wrong while pulling public data for this address. This is
-        usually temporary — please try again.
+        usually temporary - please try again.
       </p>
       <div className="flex flex-wrap justify-center gap-2">
         <Button onClick={() => reset()}>Try again</Button>
