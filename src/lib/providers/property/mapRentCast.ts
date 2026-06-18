@@ -1,6 +1,6 @@
 /**
  * Pure mappers from validated raw RentCast responses into our `Sourced<>`
- * dossier fields. No network, no side-effects — unit-tested against fixtures.
+ * dossier fields. No network, no side-effects - unit-tested against fixtures.
  *
  * The governing rule: a missing/null source field becomes an `unavailable`
  * Sourced with a null value and a note. We NEVER substitute a 0 or a guess.

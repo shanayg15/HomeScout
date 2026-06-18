@@ -1,5 +1,5 @@
 /**
- * The "is this a good deal?" read — compute-in-code, explain-with-LLM.
+ * The "is this a good deal?" read - compute-in-code, explain-with-LLM.
  *
  * Deterministic signals (yield, asking-vs-estimate, confidence) are computed
  * first; the LLM only writes a hedged plain-English summary over those numbers.
@@ -118,7 +118,7 @@ export function finalizeDeal(
       source: "llm",
       confidence: finalConfidence,
       availability: "available",
-      note: "Informational only — not appraisal or financial advice.",
+      note: "Informational only - not appraisal or financial advice.",
     },
     grossYieldPct,
     dataPointsUsed,

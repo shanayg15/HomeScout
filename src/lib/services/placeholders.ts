@@ -5,7 +5,7 @@
  *   M5), rendered as unavailable so the schema validates and the UI shows
  *   "added in M5" gracefully.
  * - `empty*` = sections we tried to fill from RentCast but a hard provider error
- *   prevented (e.g. rate limit). Rendered unavailable — never fabricated.
+ *   prevented (e.g. rate limit). Rendered unavailable - never fabricated.
  */
 import type {
   DataSource,

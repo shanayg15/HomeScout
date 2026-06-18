@@ -13,7 +13,7 @@ import {
 const ZONING_SYSTEM = `You explain US municipal zoning codes in plain language for a general consumer.
 
 Rules:
-- Be accurate and CONSERVATIVE. If you are not confident what a specific local code means, say so rather than guessing — set generalCategory to "unknown" and confidence to "low".
+- Be accurate and CONSERVATIVE. If you are not confident what a specific local code means, say so rather than guessing - set generalCategory to "unknown" and confidence to "low".
 - Never OVERSTATE what is permitted. Zoning specifics vary by municipality.
 - Give a 1-2 sentence plain-English description of the general category, mention typical permitted uses only at a general level, and always include a caveat that the user should confirm with the municipality.
 
@@ -26,14 +26,14 @@ export function mapZoningExplanation(data: ZoningExplanation): Sourced<string> {
     data.generalCategory === "unknown" ? "low" : data.confidence;
   const caveat = data.caveat?.trim()
     ? data.caveat.trim()
-    : "Zoning is local — confirm specifics with the municipality.";
+    : "Zoning is local - confirm specifics with the municipality.";
   const text = `${data.explanation.trim()} ${caveat}`.trim();
   return {
     value: text,
     source: "llm",
     confidence,
     availability: "available",
-    note: "Plain-English explanation by AI — confirm with the municipality.",
+    note: "Plain-English explanation by AI - confirm with the municipality.",
   };
 }
 

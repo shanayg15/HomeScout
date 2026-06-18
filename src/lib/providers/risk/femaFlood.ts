@@ -1,5 +1,5 @@
 /**
- * FEMA National Flood Hazard Layer (NFHL) — flood zone by coordinates.
+ * FEMA National Flood Hazard Layer (NFHL) - flood zone by coordinates.
  * Keyless. Live-verified base + layer (2026-06-18):
  *   https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query
  * (layer 28 = "Flood Hazard Zones" / S_FLD_HAZ_AR). Authoritative SFHA flag is
@@ -43,7 +43,7 @@ export function mapFemaFlood(resp: FemaResponse, fetchedAt: string): FloodRisk {
     };
   }
 
-  // A point can intersect more than one polygon — the SFHA polygon wins.
+  // A point can intersect more than one polygon - the SFHA polygon wins.
   const feat = features.find((f) => f.attributes.SFHA_TF === "T") ?? features[0];
   const a = feat.attributes;
   const zone = a.FLD_ZONE ?? null;
@@ -59,15 +59,15 @@ export function mapFemaFlood(resp: FemaResponse, fetchedAt: string): FloodRisk {
   const subty = a.ZONE_SUBTY ?? undefined;
   const zoneNote =
     zone.toUpperCase() === "D"
-      ? "Zone D — flood risk is undetermined/unstudied here, not necessarily low."
+      ? "Zone D - flood risk is undetermined/unstudied here, not necessarily low."
       : subty && /0\.2 ?PCT/i.test(subty)
-        ? "Shaded X — moderate (0.2% annual / 500-year) flood risk, outside the SFHA."
+        ? "Shaded X - moderate (0.2% annual / 500-year) flood risk, outside the SFHA."
         : undefined;
 
   return {
     zone: av(zone, fetchedAt, zoneNote),
     inSFHA: av(inSFHA, fetchedAt),
-    insuranceLikelyRequired: av(inSFHA, fetchedAt, "Informational only — not a certified flood determination."),
+    insuranceLikelyRequired: av(inSFHA, fetchedAt, "Informational only - not a certified flood determination."),
     panelId: a.DFIRM_ID ?? undefined,
   };
 }

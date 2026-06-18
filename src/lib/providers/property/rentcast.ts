@@ -1,5 +1,5 @@
 /**
- * RentCast provider — the backbone for identity/structure/ownership/tax and the
+ * RentCast provider - the backbone for identity/structure/ownership/tax and the
  * value/rent AVM + comps. Implements both `PropertyProvider` and
  * `ValuationProvider`. Validates raw responses with Zod (degrading to
  * "unavailable" on a shape mismatch rather than throwing the page) and maps via

@@ -1,5 +1,5 @@
 /**
- * Walk Score API — walkability/transit/bike for a lat/lng. Requires a free
+ * Walk Score API - walkability/transit/bike for a lat/lng. Requires a free
  * `WALKSCORE_API_KEY`. Branch on the JSON `status` (1 = success); transit/bike
  * are frequently null. Walk Score® attribution is rendered in the UI (RiskPanel).
  */
@@ -20,7 +20,7 @@ export interface WalkabilityParts {
 const STATUS_NOTE: Record<number, string> = {
   2: "Walk Score is still being calculated for this location.",
   30: "Walk Score could not resolve these coordinates.",
-  31: "Walk Score service error — try again later.",
+  31: "Walk Score service error - try again later.",
   40: "Walk Score API key is invalid.",
   41: "Walk Score daily quota exceeded.",
   42: "Walk Score access blocked.",

@@ -40,7 +40,7 @@ describe("mapFemaFlood", () => {
     expect(r.zone.note).toMatch(/moderate/i);
   });
 
-  it("treats empty features as no determination — never fabricates", () => {
+  it("treats empty features as no determination - never fabricates", () => {
     const r = mapFemaFlood(
       FemaResponseSchema.parse(fx("fema-empty.json")),
       FETCHED,

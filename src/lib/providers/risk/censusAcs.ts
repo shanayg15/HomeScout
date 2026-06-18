@@ -3,7 +3,7 @@
  *
  * The tract FIPS comes from the keyless geographies geocoder; the ACS data
  * itself now REQUIRES a key (`CENSUS_API_KEY`, free; mandatory since 2026-05-12).
- * Negative "jam" sentinels (e.g. -666666666) are treated as null — never shown.
+ * Negative "jam" sentinels (e.g. -666666666) are treated as null - never shown.
  * Latest ACS vintage is 2024 (falls back to 2023).
  */
 import { env } from "@/lib/config/env";

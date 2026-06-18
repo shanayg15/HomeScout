@@ -1,9 +1,9 @@
 /**
- * Mock property provider — the reference shape all real providers must
+ * Mock property provider - the reference shape all real providers must
  * reproduce. Returns a fully-populated, realistic `Dossier` for a generic US
  * single-family home, with `isMock: true` and every `Sourced` field tagged
  * `source: "mock"`. The only unavailable field is the plain-English zoning,
- * which is an LLM job (M6) — proving the "unavailable ⇒ null" path renders.
+ * which is an LLM job (M6) - proving the "unavailable ⇒ null" path renders.
  *
  * NOTE: M2 extends this with sentinel inputs (`__thin__`, `__null__`) to
  * exercise the thin-coverage / no-fabrication eval assertions. M1 keeps it to a
@@ -43,7 +43,7 @@ function mockUnavailable<T>(note: string): Sourced<T> {
   };
 }
 
-/** Best-effort parse of "street, city, ST zip" — falls back to placeholders. */
+/** Best-effort parse of "street, city, ST zip" - falls back to placeholders. */
 function parseIdentity(rawAddress: string): PropertyIdentity {
   const raw = rawAddress.trim();
   const parts = raw
@@ -170,7 +170,7 @@ function mockComps(baseLat: number, baseLng: number): {
 /**
  * Mock router (Option A from M2). Sentinel inputs produce edge-case dossiers so
  * the eval safety MUSTs (thin coverage, no fabrication) are genuinely exercised
- * against mocks — and the same cases keep working when real providers replace
+ * against mocks - and the same cases keep working when real providers replace
  * mocks (a real sparse area produces the same shape).
  */
 export function getMockDossier(rawAddress: string): Dossier {
@@ -228,12 +228,12 @@ function fullMockDossier(rawAddress: string): Dossier {
     zoning: {
       code: mockAvailable("R-1"),
       plainEnglish: mockAvailable(
-        "MOCK: R-1 is typically a single-family residential zone — detached homes on individual lots. Permitted uses vary by municipality; confirm specifics with the local planning department.",
+        "MOCK: R-1 is typically a single-family residential zone - detached homes on individual lots. Permitted uses vary by municipality; confirm specifics with the local planning department.",
       ),
       recentPermits: mockAvailable([
         {
           date: "2023-05-10",
-          description: "Reroof — asphalt shingles",
+          description: "Reroof - asphalt shingles",
           status: "Final",
         },
         {
@@ -261,7 +261,7 @@ function fullMockDossier(rawAddress: string): Dossier {
     },
     deal: {
       summary: mockAvailable(
-        "MOCK READ — based on placeholder figures only. The estimated rent of ~$2,600/mo against a ~$450k value implies a gross yield near 6.9%, which is typical for a single-family home in a normal market. Verify everything with a licensed professional. This is development mock data, not a real analysis.",
+        "MOCK READ - based on placeholder figures only. The estimated rent of ~$2,600/mo against a ~$450k value implies a gross yield near 6.9%, which is typical for a single-family home in a normal market. Verify everything with a licensed professional. This is development mock data, not a real analysis.",
         { confidence: "low" },
       ),
       // Stored as a percentage value (6.9 = 6.9%), not a fraction.
@@ -275,7 +275,7 @@ function fullMockDossier(rawAddress: string): Dossier {
       confidenceReason: "based on mock comparable data",
     },
     warnings: [
-      "This is mock data for development — not real property information.",
+      "This is mock data for development - not real property information.",
     ],
   };
 }
@@ -351,8 +351,8 @@ function thinMockDossier(rawAddress: string): Dossier {
       confidence: "low",
     },
     warnings: [
-      "This is mock data for development — not real property information.",
-      "Limited data coverage for this area — confidence is reduced.",
+      "This is mock data for development - not real property information.",
+      "Limited data coverage for this area - confidence is reduced.",
     ],
   };
 }
