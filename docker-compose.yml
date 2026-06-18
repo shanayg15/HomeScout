@@ -1,0 +1,24 @@
+# Local Postgres + pgvector for Homescout's lookup cache.
+# Start:  docker compose up -d
+# Then:   set DATABASE_URL in .env and run `npm run db:migrate`.
+# Without this (DATABASE_URL unset), Homescout uses a local JSON-file cache.
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: homescout
+      POSTGRES_PASSWORD: homescout
+      POSTGRES_DB: homescout
+    ports:
+      - "5448:5432"
+    volumes:
+      - homescout_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U homescout -d homescout"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  homescout_pgdata:
