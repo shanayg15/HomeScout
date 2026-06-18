@@ -30,7 +30,7 @@ export function DealRead({
   const { deal } = dossier;
   const lowConfidence = deal.confidence === "low";
 
-  // Deterministic asking-vs-estimate framing — shown whenever an asking price is
+  // Deterministic asking-vs-estimate framing - shown whenever an asking price is
   // entered, regardless of whether the LLM narrative is available.
   const value = dossier.valuation.valueEstimate.value;
   const askingVs =
@@ -54,7 +54,7 @@ export function DealRead({
         </CardTitle>
         <CardDescription>
           A grounded read with a confidence level and the exact data points used
-          — never an absolute verdict.
+          - never an absolute verdict.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 text-sm">
@@ -62,7 +62,7 @@ export function DealRead({
           <ConfidenceChip confidence={deal.confidence} />
           {deal.confidenceReason ? (
             <span className="text-xs text-muted-foreground">
-              {lowConfidence ? "Limited data — " : ""}
+              {lowConfidence ? "Limited data - " : ""}
               {deal.confidenceReason}
             </span>
           ) : null}
@@ -121,7 +121,7 @@ export function DealRead({
         ) : null}
 
         <p className="text-xs text-muted-foreground">
-          Informational only — not appraisal or financial advice. This is one
+          Informational only - not appraisal or financial advice. This is one
           signal, not a verdict; verify with a licensed professional.
         </p>
 

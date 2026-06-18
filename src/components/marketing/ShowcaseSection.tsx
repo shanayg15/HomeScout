@@ -95,7 +95,7 @@ export function ShowcaseSection({
           </div>
         </div>
 
-        {/* product card — text always leads on mobile; sides alternate at lg */}
+        {/* product card - text always leads on mobile; sides alternate at lg */}
         <div className="mt-12 overflow-hidden rounded-3xl border bg-card shadow-md">
           <div className="grid divide-y divide-border lg:grid-cols-2 lg:divide-x lg:divide-y-0">
             <div className={imageLeft ? "lg:order-2" : "lg:order-1"}>{detail}</div>

@@ -20,10 +20,10 @@ const LABEL: Record<Confidence, string> = {
 
 /**
  * Confidence chip with consistent color semantics. The text label is ALWAYS
- * present — confidence is never conveyed by color alone (accessibility).
+ * present - confidence is never conveyed by color alone (accessibility).
  */
 const TOOLTIP =
-  "Confidence reflects how many close, comparable data points were available — higher means more/closer comps and a tighter range. It is not a guarantee.";
+  "Confidence reflects how many close, comparable data points were available - higher means more/closer comps and a tighter range. It is not a guarantee.";
 
 export function ConfidenceChip({
   confidence,

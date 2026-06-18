@@ -68,7 +68,7 @@ export default function Home() {
           </h1>
 
           <p className="mt-5 max-w-xl text-lg text-white/70">
-            Paste an address — get ownership, value &amp; rent, comps on a map,
+            Paste an address - get ownership, value &amp; rent, comps on a map,
             flood &amp; walkability, and a grounded read on it. Built from public
             data, in plain English.
           </p>
@@ -94,7 +94,7 @@ export default function Home() {
           </div>
 
           <p className="mt-8 text-xs text-white/45">
-            Informational only — not an appraisal, inspection, or financial
+            Informational only - not an appraisal, inspection, or financial
             advice. We never scrape listing sites.
           </p>
         </div>
@@ -106,11 +106,11 @@ export default function Home() {
           <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
             Public-records research for any{" "}
             <strong className="font-semibold text-foreground">U.S. home</strong>{" "}
-            — ownership, <strong className="font-semibold text-foreground">value &amp; rent</strong>,{" "}
+            - ownership, <strong className="font-semibold text-foreground">value &amp; rent</strong>,{" "}
             <strong className="font-semibold text-foreground">comps</strong>,{" "}
             <strong className="font-semibold text-foreground">flood</strong>, and{" "}
             <strong className="font-semibold text-foreground">walkability</strong>{" "}
-            — sourced, dated, and structured into one plain-English dossier.
+            - sourced, dated, and structured into one plain-English dossier.
           </p>
           <div className="grid grid-cols-2 gap-8 sm:flex sm:gap-10">
             <Stat label="Data sources" value="4" note="public + licensed" />
@@ -133,12 +133,12 @@ export default function Home() {
           {
             icon: FileSearch,
             title: "Sourced at the origin",
-            body: "FEMA flood maps, Census, Walk Score, and licensed property data — each pulled from its official or licensed source.",
+            body: "FEMA flood maps, Census, Walk Score, and licensed property data - each pulled from its official or licensed source.",
           },
           {
             icon: ShieldCheck,
             title: "Validated, not guessed",
-            body: "Cross-checked and range-bounded. No coverage? The field reads “not available” — never a filler number.",
+            body: "Cross-checked and range-bounded. No coverage? The field reads “not available” - never a filler number.",
           },
           {
             icon: Clock,
@@ -180,7 +180,7 @@ export default function Home() {
           {
             icon: Map,
             title: "Comps on a map",
-            body: "Recent sales and rental comps plotted around the home — click any pin to see how it compares.",
+            body: "Recent sales and rental comps plotted around the home - click any pin to see how it compares.",
           },
           {
             icon: Waves,
@@ -197,7 +197,7 @@ export default function Home() {
           icon: LayoutDashboard,
           title: "Everything on one page",
           description:
-            "Value, rent, comps, risk, and a grounded read — one scannable dossier.",
+            "Value, rent, comps, risk, and a grounded read - one scannable dossier.",
           points: [
             {
               title: "Value & rent as ranges",
@@ -227,7 +227,7 @@ export default function Home() {
           {
             icon: Scale,
             title: "Is the price fair?",
-            body: "We compare the asking price to a range-bounded estimate — and say so when the data’s too thin to tell.",
+            body: "We compare the asking price to a range-bounded estimate - and say so when the data’s too thin to tell.",
           },
           {
             icon: LineChart,
@@ -237,7 +237,7 @@ export default function Home() {
           {
             icon: ShieldAlert,
             title: "Know the risks",
-            body: "Flood zone and walkability flagged up front — context, not a verdict.",
+            body: "Flood zone and walkability flagged up front - context, not a verdict.",
           },
         ]}
         card={{
@@ -265,7 +265,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl space-y-8 px-4 py-12 sm:px-6">
           <RecentLookups />
           <p className="max-w-2xl text-sm text-muted-foreground">
-            Homescout is informational only — not an appraisal, inspection, or
+            Homescout is informational only - not an appraisal, inspection, or
             financial advice. When public data is thin, we say so and show lower
             confidence rather than guessing. Not affiliated with any data
             provider; our own implementation on public/licensed data.

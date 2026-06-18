@@ -3,13 +3,13 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
 const INLINE_TEXT =
-  "Homescout is informational only — not an appraisal, home inspection, or financial advice. Data may be incomplete or out of date. Verify anything important with a licensed professional.";
+  "Homescout is informational only - not an appraisal, home inspection, or financial advice. Data may be incomplete or out of date. Verify anything important with a licensed professional.";
 
 const FOOTER_TEXT =
-  "Homescout is informational only — not an appraisal, inspection, or financial advice. Verify everything important with a licensed professional.";
+  "Homescout is informational only - not an appraisal, inspection, or financial advice. Verify everything important with a licensed professional.";
 
 /**
- * The "information, not advice" framing — visible, never buried. Two variants:
+ * The "information, not advice" framing - visible, never buried. Two variants:
  * - `inline`: a short Alert shown near the top of every dossier.
  * - `footer`: a small persistent line in the app footer.
  */

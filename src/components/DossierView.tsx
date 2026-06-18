@@ -17,7 +17,7 @@ import { SourcesSummary } from "@/components/dossier/SourcesSummary";
 import { WarningsBanner } from "@/components/dossier/WarningsBanner";
 
 /**
- * Composes a full dossier. UI only — all data already lives on the Dossier.
+ * Composes a full dossier. UI only - all data already lives on the Dossier.
  * The map + comps list share selection state via SelectedCompProvider.
  */
 export function DossierView({

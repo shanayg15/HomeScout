@@ -1,7 +1,7 @@
 /**
  * Frosted-glass product panels that float over a {@link SceneBackdrop} in the
  * marketing showcase sections. Each one mocks a REAL Homescout surface with our
- * real data sources and our real, guardrailed copy — no invented metrics, no
+ * real data sources and our real, guardrailed copy - no invented metrics, no
  * features we don't ship. The figures are ILLUSTRATIVE samples (labelled as
  * such, in the UI and for assistive tech), not a live lookup.
  */
@@ -19,7 +19,7 @@ function ExampleTag() {
 }
 
 /**
- * "Data sources" — the providers behind every dossier. The real app has four
+ * "Data sources" - the providers behind every dossier. The real app has four
  * distinct external providers; ownership/tax come through RentCast's licensed
  * dataset (which aggregates public records), so we don't list "county records"
  * as a separate source.
@@ -69,7 +69,7 @@ export function DataSourcesPanel() {
   );
 }
 
-/** "The dossier" — value range, comps on a map, risk chips. */
+/** "The dossier" - value range, comps on a map, risk chips. */
 export function DossierShowcasePanel() {
   return (
     <div className={`${card} w-[min(22rem,86%)]`} aria-label="Example dossier preview with illustrative numbers">
@@ -126,7 +126,7 @@ export function DossierShowcasePanel() {
   );
 }
 
-/** "The read" — a grounded, hedged deal read; never a verdict, never a guess. */
+/** "The read" - a grounded, hedged deal read; never a verdict, never a guess. */
 export function DealReadPanel() {
   return (
     <div className={`${card} w-[min(21rem,84%)]`} aria-label="Example deal read with illustrative numbers">
@@ -151,7 +151,7 @@ export function DealReadPanel() {
       <div className="mt-3 rounded-lg border bg-muted/40 p-2.5 text-[11px] leading-relaxed text-muted-foreground">
         The asking price sits within the estimated value range. Rent supports a
         gross yield near the local norm. Comps are sparse, so confidence is
-        medium. Informational only — not advice.
+        medium. Informational only - not advice.
       </div>
     </div>
   );

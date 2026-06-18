@@ -8,8 +8,8 @@ import { Disclaimer } from "@/components/Disclaimer";
 import { buttonVariants } from "@/components/ui/button";
 import { addressToSlug } from "@/lib/utils/id";
 
-// "Try now" drops the visitor straight into the working product — a live
-// dossier for a sample address — rather than the marketing page.
+// "Try now" drops the visitor straight into the working product - a live
+// dossier for a sample address - rather than the marketing page.
 const TRY_ADDRESS = "5500 Grand Lake Dr, San Antonio, TX 78244";
 const TRY_HREF = `/property/${addressToSlug(TRY_ADDRESS)}?address=${encodeURIComponent(TRY_ADDRESS)}`;
 
@@ -30,7 +30,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Homescout — understand any home before you commit",
+  title: "Homescout - understand any home before you commit",
   description:
     "Paste an address, get a plain-English property dossier from public data: ownership, value & rent estimates, comps, zoning and risk. Information, not advice.",
 };

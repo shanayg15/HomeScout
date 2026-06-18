@@ -3,7 +3,7 @@
  *
  * Layers, bottom → top:
  *   1. An original CSS/SVG scene (graded sky + pitched-roof neighborhood
- *      silhouette) — this is the FALLBACK. If the photo fails to load, the CSS
+ *      silhouette) - this is the FALLBACK. If the photo fails to load, the CSS
  *      `background-image` simply paints nothing and this shows through, so the
  *      card never breaks and needs no client JS.
  *   2. A free-license aerial-neighborhood photo (Unsplash) as a CSS background.
@@ -15,7 +15,7 @@
 
 type Variant = "dusk" | "day" | "twilight";
 
-// Free-license aerial residential photos (Unsplash License — free for
+// Free-license aerial residential photos (Unsplash License - free for
 // commercial use, no attribution required). Decorative only.
 const IMAGE: Record<Variant, string> = {
   dusk: "https://images.unsplash.com/photo-1744744417265-c777029afac3?auto=format&fit=crop&w=1600&q=70",
@@ -24,7 +24,7 @@ const IMAGE: Record<Variant, string> = {
     "https://images.unsplash.com/photo-1765106893273-980e5bf89a7c?auto=format&fit=crop&w=1600&q=70",
 };
 
-// Tint over the photo — gives each card a distinct hue and darkens enough for
+// Tint over the photo - gives each card a distinct hue and darkens enough for
 // the light frosted panel to read.
 const TINT: Record<Variant, string> = {
   dusk: "linear-gradient(180deg, rgba(14,22,46,.55) 0%, rgba(60,40,30,.30) 60%, rgba(120,70,40,.30) 100%)",

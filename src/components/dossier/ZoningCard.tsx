@@ -47,7 +47,7 @@ export function ZoningCard({ dossier }: { dossier: Dossier }) {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Zoning is local and can change — confirm specifics with the
+          Zoning is local and can change - confirm specifics with the
           municipality before relying on it.
         </p>
 
@@ -57,7 +57,7 @@ export function ZoningCard({ dossier }: { dossier: Dossier }) {
             <ul className="space-y-1 text-muted-foreground">
               {permits.value!.map((p) => (
                 <li key={`${p.date}-${p.description}`}>
-                  {formatDate(p.date)} — {p.description}
+                  {formatDate(p.date)} - {p.description}
                   {p.status ? ` (${p.status})` : ""}
                 </li>
               ))}
