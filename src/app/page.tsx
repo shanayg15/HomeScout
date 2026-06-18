@@ -1,5 +1,13 @@
+import Link from "next/link";
 import { MapPin, FileText, Search } from "lucide-react";
 import { SearchBox } from "@/components/SearchBox";
+import { addressToSlug } from "@/lib/utils/id";
+
+const EXAMPLES = [
+  "5500 Grand Lake Dr, San Antonio, TX 78244",
+  "1600 Pennsylvania Ave NW, Washington, DC 20500",
+  "350 5th Ave, New York, NY 10118",
+];
 
 const STEPS = [
   {
@@ -31,13 +39,18 @@ export default function Home() {
           zoning and risks, in plain English. Built from public data.
         </p>
         <SearchBox className="max-w-2xl" />
-        <p className="text-sm text-muted-foreground">
-          Try something like{" "}
-          <span className="font-medium text-foreground">
-            1600 Pennsylvania Ave NW, Washington, DC 20500
-          </span>
-          .
-        </p>
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-sm text-muted-foreground">Try:</span>
+          {EXAMPLES.map((addr) => (
+            <Link
+              key={addr}
+              href={`/property/${addressToSlug(addr)}?address=${encodeURIComponent(addr)}`}
+              className="rounded-full border bg-card px-3 py-1 text-xs text-foreground transition-colors hover:bg-muted"
+            >
+              {addr}
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">

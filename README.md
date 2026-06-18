@@ -17,13 +17,17 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 3 of 8 — real property lookup.** With a RentCast key and
-`USE_MOCKS=false`, pasting a real US address returns a real dossier
-(identity/structure/ownership/tax/value/rent/comps) via RentCast + free Census
-geocoding, cached so repeat lookups cost 0 API calls. Thin/missing data degrades
-to "Not available" — never a fabricated value. Risk signals, zoning
-plain-English, and the deal narrative remain stubs (M5/M6). The default is still
-mocks (`USE_MOCKS=true`), so a fresh clone runs offline.
+**Milestone 4 of 8 — polished dossier UI + map.** A responsive, scannable
+dossier with an interactive **MapLibre map** of the subject property and its
+sale/rental comps (click a comp to highlight its marker, and vice-versa),
+per-section provenance, confidence chips, a consolidated sources/freshness
+summary, and graceful loading/partial/error states. Map tiles use MapTiler if
+`MAPTILER_API_KEY` is set, otherwise free OpenStreetMap raster tiles.
+
+Earlier milestones: real RentCast + Census lookup with caching (M3, behind
+`USE_MOCKS=false`), eval harness (M2). Risk signals, zoning plain-English, and
+the deal narrative remain stubs (M5/M6). The default is still mocks
+(`USE_MOCKS=true`), so a fresh clone runs offline.
 
 ## Prerequisites
 

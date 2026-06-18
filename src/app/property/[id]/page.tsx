@@ -36,16 +36,9 @@ export default async function PropertyPage({
     );
   }
 
+  // A thrown error propagates to error.tsx; a not-found address is a valid
+  // dossier (unavailable fields + a warning), rendered normally.
   const dossier = await lookupProperty(address);
 
-  return (
-    <div className="space-y-6">
-      <DossierView dossier={dossier} />
-      <div>
-        <Link href="/" className={buttonVariants({ variant: "outline" })}>
-          New search
-        </Link>
-      </div>
-    </div>
-  );
+  return <DossierView dossier={dossier} />;
 }
