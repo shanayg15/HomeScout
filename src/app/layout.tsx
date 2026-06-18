@@ -6,6 +6,12 @@ import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Disclaimer } from "@/components/Disclaimer";
 import { buttonVariants } from "@/components/ui/button";
+import { addressToSlug } from "@/lib/utils/id";
+
+// "Try now" drops the visitor straight into the working product — a live
+// dossier for a sample address — rather than the marketing page.
+const TRY_ADDRESS = "5500 Grand Lake Dr, San Antonio, TX 78244";
+const TRY_HREF = `/property/${addressToSlug(TRY_ADDRESS)}?address=${encodeURIComponent(TRY_ADDRESS)}`;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -57,7 +63,7 @@ export default function RootLayout({
                 >
                   Saved
                 </Link>
-                <Link href="/#search" className={buttonVariants({ size: "sm" })}>
+                <Link href={TRY_HREF} className={buttonVariants({ size: "sm" })}>
                   Try now
                 </Link>
               </nav>
