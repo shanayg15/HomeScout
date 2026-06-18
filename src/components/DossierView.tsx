@@ -45,7 +45,7 @@ export function DossierView({ dossier }: { dossier: Dossier }) {
         <ValuationCard dossier={dossier} />
         <CompsList saleComps={saleComps} rentalComps={rentalComps} />
         <ZoningCard dossier={dossier} />
-        <RiskPanel />
+        <RiskPanel dossier={dossier} />
         <DealRead dossier={dossier} />
         <SourcesSummary dossier={dossier} />
       </div>

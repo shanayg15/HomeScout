@@ -12,9 +12,8 @@ import { cache } from "@/lib/cache";
 import { addressToSlug } from "@/lib/utils/id";
 import { RateLimitedError } from "@/lib/providers/http";
 import { buildDealRead } from "@/lib/deal/scoring";
+import { assessRisk } from "./assessRisk";
 import {
-  placeholderFlood,
-  placeholderNeighborhood,
   emptyStructure,
   emptyOwnership,
   emptyTax,
@@ -74,10 +73,15 @@ async function lookupPropertyReal(
     }
   }
 
-  // 4. Property record (identity/structure/ownership/tax/zoning).
+  // 4-5. Property record, valuation+comps, and risk signals — in PARALLEL.
+  //      assessRisk catches internally; record/valuation surface their errors.
+  const recordP = providers.property.getPropertyRecord(geo.identity);
+  const valuationP = pullComps(geo.identity);
+  const riskP = assessRisk(geo.identity);
+
   let record: Partial<Dossier> = {};
   try {
-    record = await providers.property.getPropertyRecord(geo.identity);
+    record = await recordP;
     if (record.warnings) warnings.push(...record.warnings);
   } catch (err) {
     providerErrored = true;
@@ -88,10 +92,9 @@ async function lookupPropertyReal(
     );
   }
 
-  // 5. Valuation + comps.
   let valuation: Valuation;
   try {
-    valuation = await pullComps(geo.identity);
+    valuation = await valuationP;
   } catch (err) {
     providerErrored = true;
     warnings.push(
@@ -101,6 +104,8 @@ async function lookupPropertyReal(
     );
     valuation = emptyValuation();
   }
+
+  const { flood, neighborhood } = await riskP;
 
   // 6. Assemble. Sections missing because of a provider error degrade to
   //    unavailable — never a fabricated number.
@@ -132,8 +137,8 @@ async function lookupPropertyReal(
     tax,
     valuation,
     zoning,
-    flood: placeholderFlood(),
-    neighborhood: placeholderNeighborhood(),
+    flood,
+    neighborhood,
     deal,
     warnings: Array.from(new Set(warnings)),
   };
