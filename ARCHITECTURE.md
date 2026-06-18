@@ -91,9 +91,33 @@ never a fabricated placeholder.
 `validateDossier()` parses provider/assembled output and throws on any shape or
 fabrication-invariant violation, so silently-wrong data fails loudly.
 
+## LLM: compute-in-code, explain-with-the-LLM
+
+The two AI features (`explainZoning`, `scoreDeal`) follow one rule: **the model
+only explains numbers the code already computed — it never produces a figure.**
+
+- A thin adapter (`src/lib/llm/anthropic.ts`) is the only thing that talks to
+  Anthropic. No key → every call returns `{ ok: false }` and the caller renders
+  "Not available". Output is forced to JSON, parsed defensively, and Zod-checked
+  with one retry then fail-soft.
+- **Deterministic signals** (`src/lib/deal/signals.ts`): yield, asking-vs-
+  estimate, range width, comp support, SFHA flag, and a computed confidence are
+  all derived in code from the dossier.
+- **Output guardrail** (`src/lib/deal/guardrail.ts`, runs every time): the LLM
+  summary is rejected if it contains absolute-verdict language **or** any
+  dollar/percent figure not present in the dossier (`ungroundedFigures`), and is
+  replaced by a safe template built from the signals. The same banned-phrase
+  list backs the eval `noAbsoluteVerdict` assertion (one source of truth).
+- **Confidence reconciliation:** the shown confidence is the *lower* of the
+  computed confidence and the model's — the model can never inflate it.
+- LLM output is cached as part of the dossier cache (no re-billing on a cache
+  hit). Evals/tests run against recorded fixtures by default; live LLM runs are
+  gated behind `EVAL_LIVE=true`.
+
 ## Data sources (filled in from M3)
 
 RentCast (property record, ownership, tax, value/rent estimates, comps; licensed,
 no attribution required), US Census Geocoder + Nominatim (geocoding), FEMA
 (flood), Walk Score, Census ACS (demographics), FBI Crime (area context). Official
-APIs and public/gov data only — **never** scraping listing sites.
+APIs and public/gov data only — **never** scraping listing sites. The LLM
+(Anthropic) explains grounded numbers only; it is never a data source.

@@ -10,14 +10,15 @@ describe("DossierSchema", () => {
 
   it("rejects a fabricated value on an unavailable field", () => {
     const mock = getMockDossier("123 Main St, Springfield, IL 62704");
-    // zoning.plainEnglish is unavailable in the mock; injecting a value must fail.
+    // An "unavailable" field with a non-null value must fail validation.
     const fabricated = {
       ...mock,
-      zoning: {
-        ...mock.zoning,
-        plainEnglish: {
-          ...mock.zoning.plainEnglish,
-          value: "Residential — fabricated",
+      ownership: {
+        ...mock.ownership,
+        ownerName: {
+          ...mock.ownership.ownerName,
+          availability: "unavailable" as const,
+          value: "Fabricated Owner",
         },
       },
     };

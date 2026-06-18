@@ -1,5 +1,6 @@
 import type { Dossier, Sourced, Confidence } from "@/lib/types/dossier";
 import type { AssertionResult, Tier } from "./types";
+import { bannedVerdict, ungroundedFigures } from "@/lib/deal/guardrail";
 
 export function assert(
   name: string,
@@ -118,30 +119,51 @@ export function confidenceAtMost(
   );
 }
 
-const BANNED_VERDICTS: RegExp[] = [
-  /\byou should buy\b/i,
-  /\byou should not buy\b/i,
-  /\bdon'?t buy\b/i,
-  /\bdefinitely buy\b/i,
-  /\bguaranteed\b/i,
-  /\bthis is a great deal\b/i,
-  /\bthis is a bad deal\b/i,
-  /\bsafe investment\b/i,
-  /\bcan'?t go wrong\b/i,
-];
-
-/** The deal read summary must NOT contain absolute-verdict language. */
+/**
+ * The deal read summary must NOT contain absolute-verdict language. Uses the
+ * same banned-phrase list as the production guardrail (single source of truth).
+ */
 export function noAbsoluteVerdict(dossier: Dossier): AssertionResult {
   const summary = dossier.deal.summary.value;
   if (!summary) {
     return assert("noAbsoluteVerdict", "must", true, "no summary present");
   }
-  const hit = BANNED_VERDICTS.find((re) => re.test(summary));
+  const hit = bannedVerdict(summary);
   return assert(
     "noAbsoluteVerdict",
     "must",
     !hit,
     hit ? `summary contains banned verdict phrase: ${hit}` : undefined,
+  );
+}
+
+/**
+ * The deal read summary must not mention any dollar amount or percentage that
+ * the dossier didn't provide — the "no invented figures" guard.
+ */
+export function noInventedFigures(dossier: Dossier): AssertionResult {
+  const summary = dossier.deal.summary.value;
+  if (!summary) {
+    return assert("noInventedFigures", "must", true, "no summary present");
+  }
+  const v = dossier.valuation.valueEstimate.value;
+  const r = dossier.valuation.rentEstimate.value;
+  const usd = [v?.point, v?.low, v?.high, r?.point, r?.low, r?.high].filter(
+    (n): n is number => n != null,
+  );
+  const pct = [dossier.deal.grossYieldPct.value].filter(
+    (n): n is number => n != null,
+  );
+  const bad = ungroundedFigures(summary, { usd, pct });
+  return assert(
+    "noInventedFigures",
+    "must",
+    bad.length === 0,
+    bad.length
+      ? `summary mentions figures not in the dossier: ${bad
+          .map((b) => `${b.kind}:${b.value}`)
+          .join(", ")}`
+      : undefined,
   );
 }
 

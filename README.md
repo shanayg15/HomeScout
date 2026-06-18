@@ -17,17 +17,40 @@ scrape Zillow, Redfin, or Realtor.com.
 
 ## Project status
 
-**Milestone 5 of 8 — risk & quality signals.** The dossier now includes a
-**risk & neighborhood** layer from free government / open data: **FEMA flood
-zone** (keyless, live-verified), **Walk Score** walkability, **Census ACS**
-demographics, and **area crime context**. All fetched in parallel, each tagged
-with its source/confidence, and every signal degrades gracefully to "Not
-available" — never fabricated.
+**Milestone 6 of 8 — zoning translation + the "good deal?" read.** Two
+AI-powered pieces: a conservative **plain-English zoning** explanation and the
+grounded **"is this a good deal?"** read. Both follow a strict **compute-in-code,
+explain-with-the-LLM** pattern — the deal read is grounded only in real dossier
+numbers, shows a confidence level + the exact data points used, and **never**
+emits an absolute verdict or an invented figure (a code-side guardrail replaces
+any non-compliant model output with a safe template). `ANTHROPIC_API_KEY` is
+optional; without it these degrade to "Not available" while the deterministic
+gross-yield math still shows.
 
-Earlier milestones: polished dossier UI + interactive MapLibre map (M4), real
-RentCast + Census-geocoded lookup with caching (M3), eval harness (M2). Zoning
-plain-English and the deal narrative are next (M6). The default is still mocks
-(`USE_MOCKS=true`), so a fresh clone runs offline.
+Earlier milestones: risk & neighborhood signals (M5), polished dossier UI +
+MapLibre map (M4), real RentCast + Census lookup with caching (M3), eval harness
+(M2). The default is still mocks (`USE_MOCKS=true`), so a fresh clone runs
+offline.
+
+## AI explanations
+
+The LLM (Anthropic, behind a thin adapter in `src/lib/llm/`) does exactly two
+things, and only ever **explains grounded numbers** — it never gives advice or
+invents figures:
+
+- **Zoning plain-English** — a short, conservative explanation of a zoning code
+  (defaults to a cheaper/faster model). If unsure, it says so rather than
+  overstating permitted uses, and always tells you to confirm with the
+  municipality.
+- **The deal read** — a hedged, sourced, confidence-rated summary over the
+  deterministic signals (yield, asking-vs-estimate). A mandatory code-side
+  guardrail rejects absolute-verdict language and any dollar/percent figure not
+  present in the dossier, substituting a safe templated read; the final
+  confidence is never higher than the data supports.
+
+Set `ANTHROPIC_API_KEY` to enable them (optional — they degrade to "Not
+available" without it). Models are overridable via `LLM_ZONING_MODEL` /
+`LLM_DEAL_MODEL`.
 
 ## Prerequisites
 

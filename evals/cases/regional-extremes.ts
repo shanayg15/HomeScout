@@ -1,20 +1,31 @@
 import type { EvalCase } from "../types";
-import { noAbsoluteVerdict, skip } from "../assertions";
+import { noAbsoluteVerdict, noInventedFigures, assert, skip } from "../assertions";
 
 /**
  * High- and low-cost markets with an asking price near the local norm. The deal
- * read must not mislabel a near-market price as "great"/"terrible". The neutral-
- * sentiment SHOULD is skipped until the real deal read (M6); the no-verdict MUST
- * runs now.
+ * read must never mislabel a near-market price as "great"/"terrible", must
+ * never use absolute-verdict language, and must not invent figures. The neutral-
+ * sentiment SHOULD runs live (EVAL_LIVE=true) and is otherwise skipped.
  */
+const LIVE = process.env.EVAL_LIVE === "true";
+
 function extremeAssertions(dossier: Parameters<EvalCase["assertions"]>[0]) {
+  const summary = dossier.deal.summary.value ?? "";
   return [
     noAbsoluteVerdict(dossier),
-    skip(
-      "neutralSentimentWhenAskingNearEstimate",
-      "should",
-      "pending real deal read (M6)",
-    ),
+    noInventedFigures(dossier),
+    LIVE
+      ? assert(
+          "neutralSentimentWhenAskingNearEstimate",
+          "should",
+          !/\b(great|terrible|amazing|awful|fantastic|horrible)\s+deal\b/i.test(summary),
+          `summary uses charged deal language: ${summary}`,
+        )
+      : skip(
+          "neutralSentimentWhenAskingNearEstimate",
+          "should",
+          "live: EVAL_LIVE=true USE_MOCKS=false + keys",
+        ),
   ];
 }
 
@@ -24,10 +35,9 @@ export const regionalExtremes: EvalCase[] = [
     description: "Very high-cost market (San Francisco), asking near norm",
     input: { address: "100 Market St, San Francisco, CA 94105", askingPrice: 1750000 },
     groundTruth: {
-      notes:
-        "Asking ≈ local norm; deal read (M6) must read neutral, not 'great deal'.",
+      notes: "Asking ≈ local norm; the read must read neutral, not 'great deal'.",
     },
-    pendingRealData: true,
+    pendingRealData: !LIVE,
     assertions: extremeAssertions,
   },
   {
@@ -35,10 +45,9 @@ export const regionalExtremes: EvalCase[] = [
     description: "Very low-cost market (Youngstown), asking near norm",
     input: { address: "200 Main St, Youngstown, OH 44503", askingPrice: 85000 },
     groundTruth: {
-      notes:
-        "A normal low local price must not read as 'terrible deal' in M6.",
+      notes: "A normal low local price must not read as 'terrible deal'.",
     },
-    pendingRealData: true,
+    pendingRealData: !LIVE,
     assertions: extremeAssertions,
   },
 ];

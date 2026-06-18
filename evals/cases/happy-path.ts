@@ -3,6 +3,7 @@ import {
   noFabricationAnywhere,
   coherentRange,
   noAbsoluteVerdict,
+  noInventedFigures,
   isPopulated,
   assert,
   skip,
@@ -29,6 +30,7 @@ function happyAssertions(
       high: r?.high ?? null,
     }),
     noAbsoluteVerdict(dossier),
+    noInventedFigures(dossier),
 
     // SHOULD — quality targets met by the full mock now.
     assert(
