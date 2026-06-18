@@ -23,9 +23,11 @@ import { WarningsBanner } from "@/components/dossier/WarningsBanner";
 export function DossierView({
   dossier,
   address,
+  askingPrice = null,
 }: {
   dossier: Dossier;
   address: string;
+  askingPrice?: number | null;
 }) {
   const saleComps = dossier.valuation.saleComps.value ?? [];
   const rentalComps = dossier.valuation.rentalComps.value ?? [];
@@ -60,7 +62,7 @@ export function DossierView({
         <CompsList saleComps={saleComps} rentalComps={rentalComps} />
         <ZoningCard dossier={dossier} />
         <RiskPanel dossier={dossier} />
-        <DealRead dossier={dossier} />
+        <DealRead dossier={dossier} address={address} askingPrice={askingPrice} />
         <SourcesSummary dossier={dossier} />
       </div>
     </SelectedCompProvider>
