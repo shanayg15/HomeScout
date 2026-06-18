@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/card";
 import { SectionSources } from "./SectionSources";
 import { SourcedValue } from "./SourcedValue";
+import { ConfidenceChip } from "./ConfidenceChip";
 import { formatDate } from "@/lib/utils/format";
 
 export function ZoningCard({ dossier }: { dossier: Dossier }) {
@@ -31,12 +32,24 @@ export function ZoningCard({ dossier }: { dossier: Dossier }) {
             </p>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground">Plain-English meaning</p>
-            <p className="mt-0.5 text-muted-foreground">
-              Plain-English explanation added in a later step (M6).
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p className="text-xs text-muted-foreground">
+                Plain-English meaning
+              </p>
+              {zoning.plainEnglish.availability === "available" ? (
+                <ConfidenceChip confidence={zoning.plainEnglish.confidence} />
+              ) : null}
+            </div>
+            <p className="mt-0.5">
+              <SourcedValue sourced={zoning.plainEnglish} />
             </p>
           </div>
         </div>
+
+        <p className="text-xs text-muted-foreground">
+          Zoning is local and can change — confirm specifics with the
+          municipality before relying on it.
+        </p>
 
         <div>
           <p className="mb-1 font-medium">Recent permits</p>

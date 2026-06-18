@@ -227,8 +227,8 @@ function fullMockDossier(rawAddress: string): Dossier {
     },
     zoning: {
       code: mockAvailable("R-1"),
-      plainEnglish: mockUnavailable(
-        "Plain-English zoning explanation added in a later step (M6).",
+      plainEnglish: mockAvailable(
+        "MOCK: R-1 is typically a single-family residential zone — detached homes on individual lots. Permitted uses vary by municipality; confirm specifics with the local planning department.",
       ),
       recentPermits: mockAvailable([
         {
@@ -272,6 +272,7 @@ function fullMockDossier(rawAddress: string): Dossier {
         "valuation.valueEstimate (mock)",
       ],
       confidence: "medium",
+      confidenceReason: "based on mock comparable data",
     },
     warnings: [
       "This is mock data for development — not real property information.",

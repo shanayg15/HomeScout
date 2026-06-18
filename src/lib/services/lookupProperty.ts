@@ -5,14 +5,15 @@
 import { getMockDossier } from "@/lib/providers/mock/mockProperty";
 import { env } from "@/lib/config/env";
 import { validateDossier } from "@/lib/schemas/dossier";
-import type { Dossier, Valuation } from "@/lib/types/dossier";
+import type { Dossier, Valuation, Zoning } from "@/lib/types/dossier";
 import { getProviders } from "@/lib/providers";
 import { pullComps } from "./pullComps";
 import { cache } from "@/lib/cache";
 import { addressToSlug } from "@/lib/utils/id";
 import { RateLimitedError } from "@/lib/providers/http";
-import { buildDealRead } from "@/lib/deal/scoring";
 import { assessRisk } from "./assessRisk";
+import { scoreDeal } from "./scoreDeal";
+import { explainZoning } from "./explainZoning";
 import {
   emptyStructure,
   emptyOwnership,
@@ -34,7 +35,7 @@ const NOT_FOUND_TTL_SECONDS = 24 * 60 * 60; // 1 day
  */
 export async function lookupProperty(
   rawAddress: string,
-  opts: { refresh?: boolean } = {},
+  opts: { refresh?: boolean; askingPrice?: number | null } = {},
 ): Promise<Dossier> {
   if (env.USE_MOCKS) {
     return validateDossier(getMockDossier(rawAddress));
@@ -44,7 +45,7 @@ export async function lookupProperty(
 
 async function lookupPropertyReal(
   rawAddress: string,
-  opts: { refresh?: boolean },
+  opts: { refresh?: boolean; askingPrice?: number | null },
 ): Promise<Dossier> {
   const providers = getProviders();
   const warnings: string[] = [];
@@ -113,12 +114,24 @@ async function lookupPropertyReal(
   const structure = record.structure ?? emptyStructure();
   const ownership = record.ownership ?? emptyOwnership();
   const tax = record.tax ?? emptyTax();
-  const zoning = record.zoning ?? emptyZoning();
+  const baseZoning = record.zoning ?? emptyZoning();
 
-  const deal = buildDealRead(
-    valuation.valueEstimate.value?.point ?? null,
-    valuation.rentEstimate.value?.point ?? null,
-  );
+  // M6: zoning plain-English + the grounded "good deal?" read (compute-then-
+  // explain). Run the two LLM steps in parallel; both are cached with the
+  // dossier. Each degrades to "unavailable" without an ANTHROPIC_API_KEY.
+  const [plainEnglish, deal] = await Promise.all([
+    explainZoning(baseZoning.code.value, {
+      city: identity.city,
+      state: identity.state,
+    }),
+    scoreDeal({
+      valuation,
+      flood,
+      neighborhood,
+      askingPrice: opts.askingPrice ?? null,
+    }),
+  ]);
+  const zoning: Zoning = { ...baseZoning, plainEnglish };
 
   if (
     valuation.valueEstimate.availability === "unavailable" &&
