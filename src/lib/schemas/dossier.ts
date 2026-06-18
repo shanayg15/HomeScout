@@ -165,6 +165,7 @@ export const DealReadSchema = z.strictObject({
   grossYieldPct: sourced(z.number()),
   dataPointsUsed: z.array(z.string()),
   confidence: ConfidenceSchema,
+  confidenceReason: z.string().optional(),
 });
 
 // ---- top-level dossier ----

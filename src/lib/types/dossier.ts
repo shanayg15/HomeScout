@@ -160,6 +160,8 @@ export interface DealRead {
   dataPointsUsed: string[];
   /** Overall confidence of the read. */
   confidence: Confidence;
+  /** Why the read has that confidence (M6). */
+  confidenceReason?: string;
 }
 
 // ---- the top-level object everything returns ----
