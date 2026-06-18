@@ -73,7 +73,10 @@ export default function Home() {
             data, in plain English.
           </p>
 
-          <div className="mt-8 max-w-2xl rounded-2xl bg-white p-2 text-foreground shadow-2xl shadow-black/40">
+          <div
+            id="search"
+            className="mt-8 max-w-2xl scroll-mt-24 rounded-2xl bg-white p-2 text-foreground shadow-2xl shadow-black/40"
+          >
             <SearchBox />
           </div>
 

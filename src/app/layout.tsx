@@ -5,6 +5,7 @@ import { Home } from "lucide-react";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Disclaimer } from "@/components/Disclaimer";
+import { buttonVariants } from "@/components/ui/button";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,9 +57,9 @@ export default function RootLayout({
                 >
                   Saved
                 </Link>
-                <span className="hidden text-xs text-muted-foreground sm:inline">
-                  Informational only — not advice
-                </span>
+                <Link href="/#search" className={buttonVariants({ size: "sm" })}>
+                  Try now
+                </Link>
               </nav>
             </div>
           </header>
