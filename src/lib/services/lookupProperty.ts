@@ -37,10 +37,20 @@ export async function lookupProperty(
   rawAddress: string,
   opts: { refresh?: boolean; askingPrice?: number | null } = {},
 ): Promise<Dossier> {
-  if (env.USE_MOCKS) {
-    return validateDossier(getMockDossier(rawAddress));
-  }
-  return lookupPropertyReal(rawAddress, opts);
+  const base = env.USE_MOCKS
+    ? validateDossier(getMockDossier(rawAddress))
+    : await lookupPropertyReal(rawAddress, opts);
+
+  // A user-entered asking price recomputes ONLY the deal read on the assembled
+  // dossier — no provider re-fetch, no extra quota. Honors the M6 guardrails.
+  if (opts.askingPrice == null) return base;
+  const deal = await scoreDeal({
+    valuation: base.valuation,
+    flood: base.flood,
+    neighborhood: base.neighborhood,
+    askingPrice: opts.askingPrice,
+  });
+  return validateDossier({ ...base, deal });
 }
 
 async function lookupPropertyReal(
@@ -124,12 +134,9 @@ async function lookupPropertyReal(
       city: identity.city,
       state: identity.state,
     }),
-    scoreDeal({
-      valuation,
-      flood,
-      neighborhood,
-      askingPrice: opts.askingPrice ?? null,
-    }),
+    // Base deal read (no asking price) is what gets cached; a user-entered
+    // asking price is applied afterward in `lookupProperty`.
+    scoreDeal({ valuation, flood, neighborhood }),
   ]);
   const zoning: Zoning = { ...baseZoning, plainEnglish };
 

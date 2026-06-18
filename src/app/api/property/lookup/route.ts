@@ -12,6 +12,10 @@ export async function GET(request: NextRequest) {
   const address = request.nextUrl.searchParams.get("address")?.trim();
   // Optional &refresh=true bypasses the cache (still respects quota).
   const refresh = request.nextUrl.searchParams.get("refresh") === "true";
+  // Optional &asking=<n> flows into the deal read (user-entered, not scraped).
+  const askingRaw = request.nextUrl.searchParams.get("asking");
+  const askingPrice =
+    askingRaw && Number.isFinite(Number(askingRaw)) ? Number(askingRaw) : null;
 
   if (!address) {
     return NextResponse.json(
@@ -23,7 +27,7 @@ export async function GET(request: NextRequest) {
   try {
     // A not-found address is a valid 200 result (dossier with unavailable
     // fields), not an error — only genuine failures become 500.
-    const dossier = await lookupProperty(address, { refresh });
+    const dossier = await lookupProperty(address, { refresh, askingPrice });
     return NextResponse.json(dossier);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
